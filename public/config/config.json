@@ -1,0 +1,18 @@
+{
+  "CONTRACT_ADDRESS": "0x6144d47ecbbc9e66961d7a9bce915b2dfea8669f",
+  "SCAN_LINK": "https://etherscan.com/token/0x6144d47ecbbc9e66961d7a9bce915b2dfea8669f",
+  "NETWORK": {
+    "NAME": "Ethereum",
+    "SYMBOL": "ETH",
+    "ID": 3
+  },
+  "NFT_NAME": "Bored Apes Fan Club",
+  "SYMBOL": "TBAFCR",
+  "MAX_SUPPLY": 10000,
+  "WEI_COST": 10000000000000000,
+  "DISPLAY_COST": 0.01,
+  "GAS_LIMIT": 285000,
+  "MARKETPLACE": "Opeansea",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/bored-apes-fan-club",
+  "SHOW_BACKGROUND": false
+}
