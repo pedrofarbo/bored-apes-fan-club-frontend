@@ -1,41 +1,3 @@
-# Welcome to The Stripes NFT 💎
-
-![](https://github.com/The-Stripes-NFT/nft-minting-app/blob/main/logo-blob.png)
-
-All the code in these repos was created and explained by HashLips on the main YouTube channel.
-
-To find out more please visit:
-
-[📺 YouTube](https://www.youtube.com/AliSolanki)
-
-[💬 Telegram](https://t.me/studentsamaj)
-
-[🐦 Twitter](https://twitter.com/thestripesnft)
-
-[ℹ️ Website](https://thestripesnft.com/)
-
-# The Stripes NFT minting dapp 🔥
-
-This repo provides a nice and easy way for linking an existing NFT smart contract to this minting dapp. There are two ways of using this repo, you can go the simple route or the more complex one.
-
-The simple route is so simple, all you need to do is download the build folder on the release page and change the configuration to fit your needs. (Follow the video for a walk through).
-
-The more complex route allows you to add additional functionality if you are comfortable with coding in react.js. (Follow the below instructions for a walk through).
-
-## Installation 🛠️
-
-If you are cloning the project then run this first, otherwise you can download the source code on the release page and skip this step.
-
-```sh
-git clone https://github.com/The-Stripes-NFT/nft-minting-app.git
-```
-
-Make sure you have node.js installed so you can use npm, then run:
-
-```sh
-npm install
-```
-
 ## Usage ℹ️
 
 In order to make use of this dapp, all you need to do is change the configurations to point to your smart contract as well as update the images and theme file.
@@ -48,21 +10,21 @@ Note: this dapp is designed to work with the intended NFT smart contract, that o
 
 ```json
 {
-  "CONTRACT_ADDRESS": "0x827acb09a2dc20e39c9aad7f7190d9bc53534192",
-  "SCAN_LINK": "https://polygonscan.com/token/0x827acb09a2dc20e39c9aad7f7190d9bc53534192",
+  "CONTRACT_ADDRESS": "HashOfContract",
+  "SCAN_LINK": "https://etherscan.com/token/{hashofcontract}",
   "NETWORK": {
-    "NAME": "Polygon",
-    "SYMBOL": "Matic",
-    "ID": 137
+    "NAME": "Ethereum",
+    "SYMBOL": "ETH",
+    "ID": 1 // 1 - mainnet, 3 - ropsten
   },
-  "NFT_NAME": "The Stripes NFT",
-  "SYMBOL": "TSNFT",
+  "NFT_NAME": "Name of Your Collection",
+  "SYMBOL": "Symbol",
   "MAX_SUPPLY": 992,
   "WEI_COST": 75000000000000000,
   "DISPLAY_COST": 0.075,
   "GAS_LIMIT": 285000,
   "MARKETPLACE": "Opeansea",
-  "MARKETPLACE_LINK": "https://opensea.io/collection/the-stripes-nft",
+  "MARKETPLACE_LINK": "https://opensea.io/collection/your-collection",
   "SHOW_BACKGROUND": true
 }
 ```
@@ -91,16 +53,16 @@ Now you will need to create and change the `public/favicon.ico`, `public/logo192
 Remember to update the title and description the `public/index.html` file
 
 ```html
-<title>The Stripes NFT</title>
-<meta name="description" content="Mint your Stripes NFT" />
+<title>Name of your Collection</title>
+<meta name="description" content="Name of your Collection" />
 ```
 
 Also remember to update the short_name and name fields in the `public/manifest.json` file
 
 ```json
 {
-  "short_name": "TSNFT",
-  "name": "The Stripes NFT"
+  "short_name": "Symbol",
+  "name": "Collection Name"
 }
 ```
 
