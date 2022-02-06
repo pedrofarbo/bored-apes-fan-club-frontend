@@ -9,14 +9,14 @@ const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
 
 export const StyledButton = styled.button`
-  padding: 10px;
+  padding: 25px;
+  font-size: 20px;
+  font-weight: 700;
   border-radius: 50px;
-  border: none;
-  background-color: var(--secondary);
-  padding: 10px;
-  font-weight: bold;
-  color: var(--secondary-text);
-  width: 100px;
+  border: 4px dotted var(--btn-border);
+  background-color: var(--btn-bg);
+  color: var(--btn-text);
+  width: auto;
   cursor: pointer;
   box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
   -webkit-box-shadow: 0px 6px 0px -2px rgba(250, 250, 250, 0.3);
@@ -35,7 +35,7 @@ export const StyledRoundButton = styled.button`
   background-color: var(--primary);
   padding: 10px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 30px;
   color: var(--primary-text);
   width: 30px;
   height: 30px;
@@ -66,18 +66,16 @@ export const ResponsiveWrapper = styled.div`
 `;
 
 export const StyledLogo = styled.img`
-  width: 250px;
+  width: 100%;
+  border-bottom: 2px solid var(--secondary);
   @media (min-width: 767px) {
-    width: 600px;
+    width: 100%;
   }
   transition: width 0.5s;
   transition: height 0.5s;
 `;
 
 export const StyledImg = styled.img`
-  box-shadow: 0px 5px 11px 2px rgba(0, 0, 0, 0.7);
-  border: 4px dashed var(--secondary);
-  background-color: var(--accent);
   border-radius: 100%;
   width: 200px;
   @media (min-width: 900px) {
@@ -99,7 +97,7 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`Click buy to mint your NFT.`);
+  const [feedback, setFeedback] = useState(`How much you want to mint?`);
   const [mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -162,8 +160,8 @@ function App() {
 
   const incrementMintAmount = () => {
     let newMintAmount = mintAmount + 1;
-    if (newMintAmount > 50) {
-      newMintAmount = 50;
+    if (newMintAmount > 10) {
+      newMintAmount = 10;
     }
     setMintAmount(newMintAmount);
   };
@@ -173,6 +171,20 @@ function App() {
       dispatch(fetchData(blockchain.account));
     }
   };
+
+  const goTo = (where) => {
+    if(where === 'discord') {
+      window.open('https://discord.gg/u7AgwTFC', '_blank');
+    } else if(where === 'twitter') {
+      window.open('https://twitter.com/ApesFun', '_blank');
+    } else if(where === 'instagram') {
+      window.open('https://www.instagram.com/bored_apes_fc/', '_blank');
+    } else if(where === 'opensea') {
+      window.open("https://opensea.io/collection/bored-apes-fan-club", '_blank');
+    } else {
+      //Nothing
+    }
+  }
 
   const getConfig = async () => {
     const configResponse = await fetch("/config/config.json", {
@@ -198,20 +210,19 @@ function App() {
       <s.Container
         flex={1}
         ai={"center"}
-        style={{ padding: 24, backgroundColor: "var(--primary)" }}
+        style={{ padding: 0, backgroundColor: "var(--primary)" }}
         image={CONFIG.SHOW_BACKGROUND ? "/config/images/bg.png" : null}
       >
+
         <a href={CONFIG.MARKETPLACE_LINK}>
           <StyledLogo alt={"logo"} src={"/config/images/logo.png"} />
         </a>
 
-        <s.SpacerSmall />
-        
         <ResponsiveWrapper flex={1} style={{ padding: 24 }} test>
-          <s.Container flex={1} jc={"center"} ai={"center"}>
+          {/* <s.Container flex={1} jc={"center"} ai={"center"}>
             <StyledImg alt={"example"} src={"/config/images/bored_gif_1.gif"} />
-          </s.Container>
-          
+          </s.Container> */}
+
           <s.SpacerLarge />
 
           <s.Container
@@ -219,61 +230,43 @@ function App() {
             jc={"center"}
             ai={"center"}
             style={{
-              backgroundColor: "var(--accent)",
-              padding: 24,
-              borderRadius: 24,
-              border: "4px dashed var(--secondary)",
-              boxShadow: "0px 5px 11px 2px rgba(0,0,0,0.7)",
+              padding: 24
             }}
           >
+            <StyledImg
+
+              style={{
+                border: "6px dotted var(--secondary)"
+              }}
+
+              alt={"Bored Apes Preview"} src={"./logo512.png"} />
+
             <s.TextTitle
               style={{
                 textAlign: "center",
-                fontSize: 50,
+                fontSize: "4rem",
                 fontWeight: "bold",
                 color: "var(--accent-text)",
               }}
             >
-              {data.totalSupply} / {CONFIG.MAX_SUPPLY}
+              {data.totalSupply}/{CONFIG.MAX_SUPPLY}
             </s.TextTitle>
-            <s.TextDescription
-              style={{
-                textAlign: "center",
-                color: "var(--primary-text)",
-              }}
-            >
-              <StyledLink target={"_blank"} href={CONFIG.SCAN_LINK}>
-                {truncate(CONFIG.CONTRACT_ADDRESS, 15)}
-              </StyledLink>
-            </s.TextDescription>
-            <span
-              style={{
-                textAlign: "center",
-              }}
-            >
-              {/* <StyledButton
-                onClick={(e) => {
-                  window.open("/config/roadmap.pdf", "_blank");
-                }}
-                style={{
-                  margin: "5px",
-                }}
-              >
-                Roadmap
-              </StyledButton> */}
 
-              <StyledButton
-                style={{
-                  margin: "5px",
-                }}
-                onClick={(e) => {
-                  window.open(CONFIG.MARKETPLACE_LINK, "_blank");
-                }}
-              >
-                {CONFIG.MARKETPLACE}
-              </StyledButton>
-            </span>
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+                marginTop: "-20px",
+                fontFamily: "airstrike"
+              }}
+            >
+              MINTED
+            </s.TextTitle>
+
             <s.SpacerSmall />
+
             {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
               <>
                 <s.TextTitle
@@ -281,6 +274,7 @@ function App() {
                 >
                   The sale has ended.
                 </s.TextTitle>
+
                 <s.TextDescription
                   style={{ textAlign: "center", color: "var(--accent-text)" }}
                 >
@@ -293,40 +287,21 @@ function App() {
               </>
             ) : (
               <>
-                <s.TextTitle
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  1 {CONFIG.SYMBOL} costs {CONFIG.DISPLAY_COST}{" "}
-                  {CONFIG.NETWORK.SYMBOL}.
-                </s.TextTitle>
-                <s.SpacerXSmall />
-                <s.TextDescription
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  Excluding gas fees.
-                </s.TextDescription>
-                <s.SpacerSmall />
                 {blockchain.account === "" ||
-                blockchain.smartContract === null ? (
+                  blockchain.smartContract === null ? (
                   <s.Container ai={"center"} jc={"center"}>
-                    <s.TextDescription
-                      style={{
-                        textAlign: "center",
-                        color: "var(--accent-text)",
-                      }}
-                    >
-                      Connect to the {CONFIG.NETWORK.NAME} network
-                    </s.TextDescription>
-                    <s.SpacerSmall />
+
                     <StyledButton
+                      style={{ fontFamily: "airstrike" }}
                       onClick={(e) => {
                         e.preventDefault();
                         dispatch(connect());
                         getData();
                       }}
                     >
-                      CONNECT
+                      CONNECT WALLET
                     </StyledButton>
+
                     {blockchain.errorMsg !== "" ? (
                       <>
                         <s.SpacerSmall />
@@ -351,7 +326,9 @@ function App() {
                     >
                       {feedback}
                     </s.TextDescription>
+
                     <s.SpacerMedium />
+
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
                       <StyledRoundButton
                         style={{ lineHeight: 0.4 }}
@@ -363,16 +340,21 @@ function App() {
                       >
                         -
                       </StyledRoundButton>
+
                       <s.SpacerMedium />
+
                       <s.TextDescription
                         style={{
                           textAlign: "center",
                           color: "var(--accent-text)",
+                          fontWeight: "bold",
                         }}
                       >
                         {mintAmount}
                       </s.TextDescription>
+
                       <s.SpacerMedium />
+
                       <StyledRoundButton
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
@@ -386,6 +368,7 @@ function App() {
                     <s.SpacerSmall />
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
                       <StyledButton
+                        style={{ fontFamily: "airstrike" }}
                         disabled={claimingNft ? 1 : 0}
                         onClick={(e) => {
                           e.preventDefault();
@@ -393,7 +376,7 @@ function App() {
                           getData();
                         }}
                       >
-                        {claimingNft ? "BUSY" : "BUY"}
+                        {claimingNft ? "MINTING" : "MINT"}
                       </StyledButton>
                     </s.Container>
                   </>
@@ -404,16 +387,495 @@ function App() {
           </s.Container>
           <s.SpacerLarge />
 
-          <s.Container flex={1} jc={"center"} ai={"center"}>
+          {/* <s.Container flex={1} jc={"center"} ai={"center"}>
             <StyledImg
               alt={"example"}
               src={"/config/images/bored_gif_2.gif"}
               style={{ transform: "scaleX(-1)" }}
             />
-          </s.Container>
-        
+          </s.Container> */}
+
         </ResponsiveWrapper>
+
         <s.SpacerMedium />
+
+        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+
+          <s.Container
+            flex={2}
+            jc={"center"}
+            ai={"center"}
+            style={{
+              padding: "0 50px 0 50px"
+            }}
+          >
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "4rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+              }}
+            >
+              ABOUT THE BAFC
+            </s.TextTitle>
+
+            <s.TextDescription
+              style={{
+                textAlign: "justify",
+                color: "var(--accent-text)",
+              }}
+            >
+
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel egestas lectus. Suspendisse sem ante, ultrices eu mi eu, dapibus aliquam nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean molestie ultrices lacus. Maecenas risus diam, ultricies in gravida ac, posuere in velit. Mauris vulputate ullamcorper leo, ut rhoncus nisi sodales at. Integer ut quam sollicitudin ipsum commodo lobortis eu nec libero.
+            </s.TextDescription>
+
+            <s.SpacerSmall />
+
+            <s.TextDescription
+              style={{
+                textAlign: "justify",
+                color: "var(--accent-text)",
+              }}
+            >
+
+              Quisque faucibus neque porta ligula suscipit, fringilla aliquet lorem fermentum. Aenean sit amet odio ex. Sed in lectus in massa viverra varius. Sed dapibus tincidunt scelerisque. Curabitur tempor urna et mauris molestie, vel iaculis arcu rhoncus. Sed nec dolor eget ligula sodales gravida id vitae nisi. Nunc eget ipsum non ante finibus gravida quis et risus. Phasellus ac risus at lectus egestas faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc felis dolor, cursus nec magna ut, ullamcorper aliquet turpis. Vivamus nec felis nec leo auctor viverra sed nec dui. Donec viverra dolor in fringilla viverra. Donec porttitor diam at purus molestie, placerat faucibus odio congue.
+            </s.TextDescription>
+
+          </s.Container>
+
+        </ResponsiveWrapper>
+
+        <s.SpacerMedium />
+
+        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+
+          <s.Container
+            flex={1}
+            jc={"center"}
+            ai={"center"}
+            style={{
+              padding: "0 50px 0 50px"
+            }}
+          >
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "4rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+              }}
+            >
+              APES PREVIEWS
+            </s.TextTitle>
+
+            <s.SpacerLarge />
+
+            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/1.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/2.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/3.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/4.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+            </ResponsiveWrapper>
+
+            <s.SpacerLarge />
+
+            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/5.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/6.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/7.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/8.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+            </ResponsiveWrapper>
+
+            <s.SpacerLarge />
+
+            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/9.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/10.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/11.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/apes_preview/12.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+              </s.Container>
+            </ResponsiveWrapper>
+
+          </s.Container>
+
+        </ResponsiveWrapper>
+
+        <s.SpacerMedium />
+
+        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+
+          <s.Container
+            flex={1}
+            jc={"center"}
+            ai={"center"}
+            style={{
+              padding: "0 50px 0 50px"
+            }}
+          >
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "4rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+              }}
+            >
+              THE TEAM
+            </s.TextTitle>
+
+            <s.SpacerLarge />
+
+            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/monkey1.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  Project Founder
+                </s.TextDescription>
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/monkey2.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  Community Manager
+                </s.TextDescription>
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/monkey3.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  Artist
+                </s.TextDescription>
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/monkey4.png"}
+                  style={{ transform: "scaleX(-1)" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  The Investor
+                </s.TextDescription>
+              </s.Container>
+            </ResponsiveWrapper>
+
+          </s.Container>
+
+        </ResponsiveWrapper>
+
+        <s.SpacerMedium />
+
+        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+
+          <s.Container
+            flex={1}
+            jc={"center"}
+            ai={"center"}
+            style={{
+              padding: "0 50px 0 50px"
+            }}
+          >
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "4rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+              }}
+            >
+              LINKS
+            </s.TextTitle>
+
+            <s.SpacerLarge />
+
+            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} 
+              onClick={(e) => {
+                          e.preventDefault();
+                          goTo('discord');
+                        }}>
+                <StyledImg
+                  alt={"discord"}
+                  src={"/config/images/discord.png"}
+                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  DISCORD
+
+                </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  @u7AgwTFC
+                </s.TextDescription>
+              
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} onClick={(e) => {
+                          e.preventDefault();
+                          goTo('twitter');
+                        }}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/twitter.png"}
+                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  TWITTER 
+                </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  @ApesFun
+                </s.TextDescription>
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} onClick={(e) => {
+                          e.preventDefault();
+                          goTo('instagram');
+                        }}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/instagram.png"}
+                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  INSTAGRAM 
+                </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  @bored_apes_fc
+                </s.TextDescription>
+              </s.Container>
+
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} onClick={(e) => {
+                          e.preventDefault();
+                          goTo('opensea');
+                        }}>
+                <StyledImg
+                  alt={"example"}
+                  src={"/config/images/opensea.png"}
+                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                />
+
+                <s.SpacerMedium />
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  OPEN SEA 
+
+                </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  @Bored Apes Fan Club
+                </s.TextDescription>
+              </s.Container>
+            </ResponsiveWrapper>
+
+          </s.Container>
+
+        </ResponsiveWrapper>
+
+        <s.SpacerMedium />
+
+        <s.TextTitle
+          style={{
+            textAlign: "center",
+            fontSize: "4rem",
+            fontWeight: "bold",
+            color: "var(--accent-text)",
+          }}
+        >
+          FAQ
+        </s.TextTitle>
+
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
           <s.TextDescription
             style={{

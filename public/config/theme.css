@@ -1,8 +1,11 @@
 :root {
-  --primary: rgb(22,22,22);
-  --primary-text: #ffffff;
-  --secondary: rgb(114,6,145);
+  --primary: #fff;
+  --primary-text: #222;
+  --secondary: rgb(251,90,0);
   --secondary-text: #ffffff;
   --accent: #505050;
-  --accent-text: #ffffff;
+  --accent-text: #222;
+  --btn-bg: rgb(28, 32, 48, 85%);
+  --btn-text: #fff;
+  --btn-border: rgb(251,90,0);
 }

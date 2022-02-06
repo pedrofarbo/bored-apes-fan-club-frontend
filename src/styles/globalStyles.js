@@ -52,6 +52,7 @@ export const Container = styled.div`
 
 export const TextTitle = styled.p`
   color: var(--primary-text);
+  font-family: "airstrikebullet";
   font-size: 22px;
   font-weight: 500;
   line-height: 1.6;

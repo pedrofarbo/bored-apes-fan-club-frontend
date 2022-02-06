@@ -124,13 +124,24 @@ table {
 }
 
 @font-face {
-  font-family: "coder";
-  src: local("coder"), url(font.woff) format("woff");
+  font-family: 'airstrike';
+  src: url("airstrike/airstrike.ttf") format('truetype'); 
+}
+
+@font-face {
+  font-family: 'airstrikebold';
+  src: url("airstrike/airstrikebold.ttf") format('truetype'); 
+}
+
+
+@font-face {
+  font-family: 'airstrikebullet';
+  src: url("airstrike/airstrikebullet.ttf") format('truetype'); 
 }
 
 body {
   margin: 0;
-  font-family: "coder", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
+  font-family: "airstrike", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
     "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;

@@ -9,6 +9,7 @@
   "NFT_NAME": "Bored Apes Fan Club",
   "SYMBOL": "BAFC",
   "MAX_SUPPLY": 10000,
+  "MAX_MINT": 10,
   "WEI_COST": 10000000000000000,
   "DISPLAY_COST": 0.01,
   "GAS_LIMIT": 285000,
