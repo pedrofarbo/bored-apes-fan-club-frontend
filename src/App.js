@@ -65,6 +65,29 @@ export const ResponsiveWrapper = styled.div`
   }
 `;
 
+export const AccordionWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--btn-bg);
+    border-radius: 10px;
+    height: auto;
+    padding: 2%;
+    text-align: center;
+    width: 100%;
+    transition: all 0.6s ease-in-out;
+    color: var(--primary);
+`;
+
+export const InternalAccordionWrapper = styled.div`
+    width: 100%;
+    color: var(--primary);
+    max-height: ${(props) => (props.open ? '100px' : '0')};
+    margin-top: ${(props) => (props.open ? '10px' : '0')};
+    transition: all 0.4s ease-in-out;
+    overflow: hidden;
+`;
+
 export const StyledLogo = styled.img`
   width: 100%;
   border-bottom: 2px solid var(--secondary);
@@ -93,6 +116,12 @@ export const StyledLink = styled.a`
 `;
 
 function App() {
+  const [open, setOpen] = useState(false);
+
+  const handleAccordionClick = () => {
+    setOpen(!open);
+  };
+
   const dispatch = useDispatch();
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
@@ -173,13 +202,13 @@ function App() {
   };
 
   const goTo = (where) => {
-    if(where === 'discord') {
+    if (where === 'discord') {
       window.open('https://discord.gg/u7AgwTFC', '_blank');
-    } else if(where === 'twitter') {
+    } else if (where === 'twitter') {
       window.open('https://twitter.com/ApesFun', '_blank');
-    } else if(where === 'instagram') {
+    } else if (where === 'instagram') {
       window.open('https://www.instagram.com/bored_apes_fc/', '_blank');
-    } else if(where === 'opensea') {
+    } else if (where === 'opensea') {
       window.open("https://opensea.io/collection/bored-apes-fan-club", '_blank');
     } else {
       //Nothing
@@ -722,11 +751,11 @@ function App() {
             <s.SpacerLarge />
 
             <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} 
-              onClick={(e) => {
-                          e.preventDefault();
-                          goTo('discord');
-                        }}>
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  goTo('discord');
+                }}>
                 <StyledImg
                   alt={"discord"}
                   src={"/config/images/discord.png"}
@@ -755,13 +784,13 @@ function App() {
 
                   @u7AgwTFC
                 </s.TextDescription>
-              
+
               </s.Container>
 
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} onClick={(e) => {
-                          e.preventDefault();
-                          goTo('twitter');
-                        }}>
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
+                e.preventDefault();
+                goTo('twitter');
+              }}>
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/twitter.png"}
@@ -777,7 +806,7 @@ function App() {
                   }}
                 >
 
-                  TWITTER 
+                  TWITTER
                 </s.TextDescription>
 
                 <s.TextDescription
@@ -791,10 +820,10 @@ function App() {
                 </s.TextDescription>
               </s.Container>
 
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} onClick={(e) => {
-                          e.preventDefault();
-                          goTo('instagram');
-                        }}>
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
+                e.preventDefault();
+                goTo('instagram');
+              }}>
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/instagram.png"}
@@ -810,7 +839,7 @@ function App() {
                   }}
                 >
 
-                  INSTAGRAM 
+                  INSTAGRAM
                 </s.TextDescription>
 
                 <s.TextDescription
@@ -824,10 +853,10 @@ function App() {
                 </s.TextDescription>
               </s.Container>
 
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer"}} onClick={(e) => {
-                          e.preventDefault();
-                          goTo('opensea');
-                        }}>
+              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
+                e.preventDefault();
+                goTo('opensea');
+              }}>
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/opensea.png"}
@@ -843,7 +872,7 @@ function App() {
                   }}
                 >
 
-                  OPEN SEA 
+                  OPEN SEA
 
                 </s.TextDescription>
 
@@ -865,16 +894,325 @@ function App() {
 
         <s.SpacerMedium />
 
-        <s.TextTitle
-          style={{
-            textAlign: "center",
-            fontSize: "4rem",
-            fontWeight: "bold",
-            color: "var(--accent-text)",
-          }}
-        >
-          FAQ
-        </s.TextTitle>
+        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+
+          <s.Container
+            flex={1}
+            jc={"center"}
+            ai={"center"}
+            style={{
+              padding: "0 50px 0 50px"
+            }}
+          >
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "4rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+              }}
+            >
+              FAQ
+            </s.TextTitle>
+
+            <ul>
+              <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                e.preventDefault();
+                handleAccordionClick();
+              }}>
+                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                  <s.Container
+                    flex={1}
+                    jc={"center"}
+                    ai={"center"}
+                    style={{
+                      padding: 0
+                    }}
+                  >
+
+                    <AccordionWrapper>
+
+                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                        <s.Container
+                          flex={11}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <s.TextDescription
+                            style={{
+                              textAlign: "justify",
+                              color: "var(--primary)",
+                            }}
+                          >
+
+                            I - What is NFT?
+                          </s.TextDescription>
+
+                          <InternalAccordionWrapper open={open}>
+                            NFT stands for “Non-fungible token” and is a cool way of saying it's a truly unique digital item that YOU can buy, own, and trade.
+                          </InternalAccordionWrapper>
+
+                        </s.Container>
+
+                        <s.Container
+                          flex={1}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <StyledRoundButton
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAccordionClick();
+                            }}
+                          >
+                            {!open ? '+' : '-'}
+                          </StyledRoundButton>
+
+
+                        </s.Container>
+                      </ResponsiveWrapper>
+                    </AccordionWrapper>
+
+                  </s.Container>
+
+                </ResponsiveWrapper>
+
+              </li>
+
+              <s.SpacerSmall />
+
+              <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                e.preventDefault();
+                handleAccordionClick();
+              }}>
+                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                  <s.Container
+                    flex={1}
+                    jc={"center"}
+                    ai={"center"}
+                    style={{
+                      padding: 0
+                    }}
+                  >
+
+                    <AccordionWrapper>
+
+                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                        <s.Container
+                          flex={11}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <s.TextDescription
+                            style={{
+                              textAlign: "justify",
+                              color: "var(--primary)",
+                            }}
+                          >
+
+                            II - What is Metamask?
+                          </s.TextDescription>
+
+                          <InternalAccordionWrapper open={open}>
+                            Metamask is a crypto-wallet that can store your Ethereum, and is needed to purchase and mint a Baby Ghost. Having a wallet gives you an Ethereum address (i.e. 0xSPOO….666), this is where your NFT will be stored. Learn more about Metamask and how easy it is to use over here! (https://metamask.io).
+                          </InternalAccordionWrapper>
+
+                        </s.Container>
+
+                        <s.Container
+                          flex={1}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <StyledRoundButton
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAccordionClick();
+                            }}
+                          >
+                            {!open ? '+' : '-'}
+                          </StyledRoundButton>
+
+
+                        </s.Container>
+                      </ResponsiveWrapper>
+                    </AccordionWrapper>
+
+                  </s.Container>
+
+                </ResponsiveWrapper>
+
+              </li>
+
+              <s.SpacerSmall />
+
+              <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                e.preventDefault();
+                handleAccordionClick();
+              }}>
+                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                  <s.Container
+                    flex={1}
+                    jc={"center"}
+                    ai={"center"}
+                    style={{
+                      padding: 0
+                    }}
+                  >
+
+                    <AccordionWrapper>
+
+                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                        <s.Container
+                          flex={11}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <s.TextDescription
+                            style={{
+                              textAlign: "justify",
+                              color: "var(--primary)",
+                            }}
+                          >
+
+                            III - How to mint with Metamask on a mobile phone?
+                          </s.TextDescription>
+
+                          <InternalAccordionWrapper open={open}>
+                            If you are using a mobile phone to mint our Bored Apes, you need to use the Metamask application built-in browser to mint our NFTs. Therefore, please launch the Metamask application, click the 3 lines on the top left menu in the application and select "Browser". It will open a web browser and you will be able to navigate back to bafc.fun to do the minting.
+                          </InternalAccordionWrapper>
+
+                        </s.Container>
+
+                        <s.Container
+                          flex={1}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <StyledRoundButton
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAccordionClick();
+                            }}
+                          >
+                            {!open ? '+' : '-'}
+                          </StyledRoundButton>
+
+
+                        </s.Container>
+                      </ResponsiveWrapper>
+                    </AccordionWrapper>
+
+                  </s.Container>
+
+                </ResponsiveWrapper>
+
+              </li>
+
+              <s.SpacerSmall />
+
+              <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                e.preventDefault();
+                handleAccordionClick();
+              }}>
+                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                  <s.Container
+                    flex={1}
+                    jc={"center"}
+                    ai={"center"}
+                    style={{
+                      padding: 0
+                    }}
+                  >
+
+                    <AccordionWrapper>
+
+                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                        <s.Container
+                          flex={11}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <s.TextDescription
+                            style={{
+                              textAlign: "justify",
+                              color: "var(--primary)",
+                            }}
+                          >
+
+                            IV - How to mint with Metamask on a computer?
+                          </s.TextDescription>
+
+                          <InternalAccordionWrapper open={open}>
+                            If you are using a computer to mint our Bored Apes, you just need to connect the Metamask plugin with our website, verify you have enough ETH to do the transaction, then you will be able to click on the Mint button to buy a few Apes.
+                          </InternalAccordionWrapper>
+
+                        </s.Container>
+
+                        <s.Container
+                          flex={1}
+                          jc={"center"}
+                          ai={"center"}
+                          style={{
+                            padding: 0
+                          }}
+                        >
+
+                          <StyledRoundButton
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleAccordionClick();
+                            }}
+                          >
+                            {!open ? '+' : '-'}
+                          </StyledRoundButton>
+
+
+                        </s.Container>
+                      </ResponsiveWrapper>
+                    </AccordionWrapper>
+
+                  </s.Container>
+
+                </ResponsiveWrapper>
+
+              </li>
+            </ul>
+
+
+
+          </s.Container>
+
+        </ResponsiveWrapper>
 
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
           <s.TextDescription
