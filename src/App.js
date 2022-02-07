@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect } from "./redux/blockchain/blockchainActions";
+import { connect, connectContract } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
@@ -69,19 +69,19 @@ export const AccordionWrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: var(--btn-bg);
+    background-color: var(--secondary);
     border-radius: 10px;
     height: auto;
     padding: 2%;
     text-align: center;
     width: 100%;
     transition: all 0.6s ease-in-out;
-    color: var(--primary);
+    color: var(--accent-text);
 `;
 
 export const InternalAccordionWrapper = styled.div`
     width: 100%;
-    color: var(--primary);
+    color: var(--accent-text);
     max-height: ${(props) => (props.open ? '100px' : '0')};
     margin-top: ${(props) => (props.open ? '10px' : '0')};
     transition: all 0.4s ease-in-out;
@@ -192,6 +192,7 @@ function App() {
     if (newMintAmount > 10) {
       newMintAmount = 10;
     }
+
     setMintAmount(newMintAmount);
   };
 
@@ -1207,12 +1208,11 @@ function App() {
 
               </li>
             </ul>
-
-
-
           </s.Container>
 
         </ResponsiveWrapper>
+
+        <s.SpacerLarge />
 
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
           <s.TextDescription
@@ -1238,6 +1238,8 @@ function App() {
           </s.TextDescription>
         </s.Container>
       </s.Container>
+
+      <s.SpacerLarge />
     </s.Screen>
   );
 }
