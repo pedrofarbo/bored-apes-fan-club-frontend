@@ -279,7 +279,8 @@ function App() {
                 color: "var(--accent-text)",
               }}
             >
-              {data.totalSupply}/{CONFIG.MAX_SUPPLY}
+              {/* {data.totalSupply}/{CONFIG.MAX_SUPPLY} */}
+              153/10000
             </s.TextTitle>
 
             <s.TextTitle
@@ -399,14 +400,16 @@ function App() {
                     <s.Container ai={"center"} jc={"center"} fd={"row"}>
                       <StyledButton
                         style={{ fontFamily: "airstrike" }}
-                        disabled={claimingNft ? 1 : 0}
+                        // disabled={claimingNft ? 1 : 0}
+                        disabled={true}
                         onClick={(e) => {
                           e.preventDefault();
                           claimNFTs();
                           getData();
                         }}
                       >
-                        {claimingNft ? "MINTING" : "MINT"}
+                        {/* {claimingNft ? "MINTING" : "MINT"} */}
+                        New round soon.. Stay tuned!
                       </StyledButton>
                     </s.Container>
                   </>
