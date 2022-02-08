@@ -201,13 +201,18 @@ export const TraitsTableStyles = styled.div`
  table {
    border-spacing: 0;
    border: 2px solid var(--secondary);
-   background-color: var(--primary-text);
+   background: transparent;
    width: 480px;
    font-weight: bold;
+   color: var(--primary-text);
+   border-collapse:separate;
+    -webkit-border-radius: 6px;
+       -moz-border-radius: 6px;
+            border-radius: 6px;
 
    tr {
     fontWeight: bold;
-     :last-child {
+    :last-child {
        td {
          border-bottom: 0;
          font-weight: 400;
@@ -221,6 +226,11 @@ export const TraitsTableStyles = styled.div`
      border-bottom: 1px solid var(--secondary);
      border-right: 1px solid var(--secondary);
      font-weight: 400;
+     text-align: center;
+
+     :first-child {
+        text-align:left;
+      }
 
      :last-child {
        border-right: 0;
@@ -230,8 +240,9 @@ export const TraitsTableStyles = styled.div`
    th {
      background: var(--secondary);
      border-bottom: 3px solid var(--secondary);
-     color: white;
+     color: var(--primary-text);
      font-weight: bold;
+     text-align:center !important;
    }
  }
 `
