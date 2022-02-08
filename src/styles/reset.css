@@ -239,3 +239,13 @@ div {
   transform: scale(1.3); 
   transition: all .2s ease-in-out;
 }
+
+.menuMobileLink {
+  color: #fff;
+  text-decoration: none;
+  margin-top: 6px;
+}
+
+.menuMobileLink:hover {
+  color: rgb(251,90,0,1);
+}

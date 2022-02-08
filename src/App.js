@@ -145,6 +145,10 @@ export const Menu = styled.div`
   justify-content: space-between;
   flex-wrap: nowrap;
   width: 70%;
+
+  @media (max-width: 1315px) {
+    display: none;
+  }
 `;
 
 export const MenuLinks = styled.div`
@@ -152,6 +156,45 @@ export const MenuLinks = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 30%;
+`;
+
+export const MenuMobileLinks = styled.div`
+  list-style: none;
+  display: flex;
+  justify-content: flex-start;
+  width: 100%;
+  margin-left: -10px;
+`;
+
+export const MenuMobile = styled.div`
+  position: relative;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 100%;
+  padding: 0 0 0 100px;
+
+  @media (min-width: 1315px) {
+    display: none;
+  }
+`;
+
+export const BtnMenuMobile = styled.div`
+  position: relative;
+  background: transparent;
+  cursor: pointer;
+`;
+
+export const MenuMobileInternal = styled.div`
+  height: auto;
+  width: 200px;
+  position: relative;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  font-family: 'airstrike';
 `;
 
 export const TraitsTableStyles = styled.div`
@@ -236,86 +279,74 @@ function Table({ columns, data }) {
 
 function ApesPreviewSlider() {
   return (
-    <Slider style={{width: "100%", maxWidth: "1900px"}} showDots={false} infinite={true} showArrows={false} padding={"0"} margin={"0"} autoSlide={1600} cardsToShow={6}>
-   
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/1.png"}
-          />
-   
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/2.png"}
+    <Slider style={{ width: "100%", maxWidth: "1900px" }} showDots={false} infinite={true} showArrows={false} padding={"0"} margin={"0"} autoSlide={1600} cardsToShow={6}>
 
-          />
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/1.png"}
+      />
 
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/3.png"}
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/2.png"}
+      />
 
-          />
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/3.png"}
+      />
 
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/4.png"}
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/4.png"}
+      />
 
-          />
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/5.png"}
+      />
 
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/5.png"}
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/6.png"}
+      />
 
-          />
-    
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/6.png"}
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/7.png"}
+      />
 
-          />
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/8.png"}
+      />
 
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/7.png"}
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/9.png"}
+      />
 
-          />
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/10.png"}
+      />
 
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/8.png"}
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/11.png"}
+      />
 
-          />
-
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/9.png"}
-
-          />
-
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/10.png"}
-
-          />
-      
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/11.png"}
-
-          />
-
-          <StyledImg
-            alt={"example"}
-            src={"/config/images/apes_preview/12.png"}
-
-          />
+      <StyledImg
+        alt={"example"}
+        src={"/config/images/apes_preview/12.png"}
+      />
     </Slider>
   )
 }
 
 function App() {
   const [open, setOpen] = useState(false);
-
-
+  const [menuOpen, setMenuOpen] = useState(false);
 
   const traits = React.useMemo(() =>
     [
@@ -389,6 +420,10 @@ function App() {
 
   const handleAccordionClick = () => {
     setOpen(!open);
+  };
+
+  const handleMenuMobileClick = () => {
+    setMenuOpen(!menuOpen);
   };
 
   const dispatch = useDispatch();
@@ -566,1008 +601,1075 @@ function App() {
             </MenuLinks>
           </Menu>
 
-          <div class="btnMenuHamburguer">
-            <div class="solidoMenuHamburguer">
-              <span></span>
-            </div>
-          </div>
+          <MenuMobile>
+            <BtnMenuMobile onClick={(e) => {
+              e.preventDefault();
+              handleMenuMobileClick();
+            }}>
+              
+              {!menuOpen ?  <StyledImg
+                alt={"open"}
+                src={"/config/images/menu.png"}
+                style={{ width: "28px", height: "100%"}} onClick={(e) => {
+                  e.preventDefault();
+                  handleMenuMobileClick();
+                }} /> : <StyledImg
+                alt={"close"}
+                src={"/config/images/close.png"}
+                style={{ width: "32px", height: "100%"}} onClick={(e) => {
+                  e.preventDefault();
+                  handleMenuMobileClick();
+                }} />}
+             
+              </BtnMenuMobile>
+
+              <s.SpacerXSmall />
+              
+              {
+                menuOpen ?  <MenuMobileInternal>
+             
+              <a className="menuMobileLink" href="/#about"><span>About the BAFC</span></a>
+              <a className="menuMobileLink" href="/#apes"><span>Apes Previews</span></a>
+              <a className="menuMobileLink" href="/#traits"><span>Traits</span></a>
+              <a className="menuMobileLink" href="/#team"><span>The Team</span></a>
+              <a className="menuMobileLink" href="/#links-faq"><span>Links</span></a>
+              <a className="menuMobileLink" href="/#links-faq"><span>Faq</span></a>
+
+              <s.SpacerLarge />
+
+              <MenuMobileLinks className="menuLinks" style={{ cursor: "pointer" }}>
+                <StyledImg
+                  alt={"discord"}
+                  src={"/config/images/ico-discord.svg"}
+                  style={{ width: "22px", height: "100%", margin: "0 6px" }} onClick={(e) => {
+                    e.preventDefault();
+                    goTo("discord");
+                  }}
+                />
+
+                <StyledImg
+                  alt={"twitter"}
+                  src={"/config/images/ico-twitter.svg"}
+                  style={{ width: "22px", height: "100%", margin: "0 6px" }} onClick={(e) => {
+                    e.preventDefault();
+                    goTo("twitter");
+                  }}
+                />
+
+                <StyledImg
+                  alt={"instagram"}
+                  src={"/config/images/ico-instagram.svg"}
+                  style={{ width: "22px", height: "100%", margin: "0 6px" }} onClick={(e) => {
+                    e.preventDefault();
+                    goTo("instagram");
+                  }}
+                />
+            </MenuMobileLinks>
+ 
+              </MenuMobileInternal> : null
+              }
+              
+              
+          </MenuMobile>
+
+          
         </Line>
 
-        <s.SpacerLarge />
-        <s.SpacerLarge />
+          <s.SpacerLarge />
+          <s.SpacerLarge />
 
-        <ResponsiveWrapper flex={1} style={{ padding: 24 }}>
+          <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
 
-          <s.Container
-            flex={2}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: "0 0 0 100px"
-            }}
-          >
-
-            <s.TextTitle
+            <s.Container
+              flex={1}
+              jc={"center"}
+              ai={"center"}
               style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
+                padding: "0 50px 0 50px"
               }}
             >
-              ABOUT THE BAFC
+
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                ABOUT THE BAFC
             </s.TextTitle>
 
-            <s.TextDescription
-              style={{
-                textAlign: "justify",
-                color: "var(--accent-text)",
-              }}
-            >
+              <s.TextDescription
+                style={{
+                  textAlign: "justify",
+                  color: "var(--accent-text)",
+                }}
+              >
 
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel egestas lectus. Suspendisse sem ante, ultrices eu mi eu, dapibus aliquam nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean molestie ultrices lacus. Maecenas risus diam, ultricies in gravida ac, posuere in velit. Mauris vulputate ullamcorper leo, ut rhoncus nisi sodales at. Integer ut quam sollicitudin ipsum commodo lobortis eu nec libero.
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam vel egestas lectus. Suspendisse sem ante, ultrices eu mi eu, dapibus aliquam nunc. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean molestie ultrices lacus. Maecenas risus diam, ultricies in gravida ac, posuere in velit. Mauris vulputate ullamcorper leo, ut rhoncus nisi sodales at. Integer ut quam sollicitudin ipsum commodo lobortis eu nec libero.
             </s.TextDescription>
 
-            <s.SpacerSmall />
+              <s.SpacerSmall />
 
-            <s.TextDescription
-              style={{
-                textAlign: "justify",
-                color: "var(--accent-text)",
-              }}
-            >
+              <s.TextDescription
+                style={{
+                  textAlign: "justify",
+                  color: "var(--accent-text)",
+                }}
+              >
 
-              Quisque faucibus neque porta ligula suscipit, fringilla aliquet lorem fermentum. Aenean sit amet odio ex. Sed in lectus in massa viverra varius. Sed dapibus tincidunt scelerisque. Curabitur tempor urna et mauris molestie, vel iaculis arcu rhoncus. Sed nec dolor eget ligula sodales gravida id vitae nisi. Nunc eget ipsum non ante finibus gravida quis et risus. Phasellus ac risus at lectus egestas faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc felis dolor, cursus nec magna ut, ullamcorper aliquet turpis. Vivamus nec felis nec leo auctor viverra sed nec dui. Donec viverra dolor in fringilla viverra. Donec porttitor diam at purus molestie, placerat faucibus odio congue.
+                Quisque faucibus neque porta ligula suscipit, fringilla aliquet lorem fermentum. Aenean sit amet odio ex. Sed in lectus in massa viverra varius. Sed dapibus tincidunt scelerisque. Curabitur tempor urna et mauris molestie, vel iaculis arcu rhoncus. Sed nec dolor eget ligula sodales gravida id vitae nisi. Nunc eget ipsum non ante finibus gravida quis et risus. Phasellus ac risus at lectus egestas faucibus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc felis dolor, cursus nec magna ut, ullamcorper aliquet turpis. Vivamus nec felis nec leo auctor viverra sed nec dui. Donec viverra dolor in fringilla viverra. Donec porttitor diam at purus molestie, placerat faucibus odio congue.
             </s.TextDescription>
 
-          </s.Container>
+            </s.Container>
 
-          <s.Container
-            flex={2}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: 0
-            }}
-          >
-            <StyledImg
-
+            <s.Container
+              flex={2}
+              jc={"center"}
+              ai={"center"}
               style={{
-                border: "6px dotted var(--secondary)",
-                borderRadius: "100%"
-              }}
-
-              alt={"Bored Apes Preview"} src={"./logo512.png"} />
-
-            <s.TextTitle
-              style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
+                padding: 0
               }}
             >
-              {/* {data.totalSupply}/{CONFIG.MAX_SUPPLY} */}
-              0/10000
+              <StyledImg
+
+                style={{
+                  border: "6px dotted var(--secondary)",
+                  borderRadius: "100%"
+                }}
+
+                alt={"Bored Apes Preview"} src={"./logo512.png"} />
+
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                {/* {data.totalSupply}/{CONFIG.MAX_SUPPLY} */}
+                0/10000
             </s.TextTitle>
 
-            <s.TextTitle
-              style={{
-                textAlign: "center",
-                fontSize: "2rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
-                marginTop: "-20px",
-                fontFamily: "airstrike"
-              }}
-            >
-              MINTED
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "2rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                  marginTop: "-20px",
+                  fontFamily: "airstrike"
+                }}
+              >
+                MINTED
             </s.TextTitle>
 
-            <s.SpacerSmall />
+              <s.SpacerSmall />
 
-            {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
-              <>
-                <s.TextTitle
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  The sale has ended.
+              {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
+                <>
+                  <s.TextTitle
+                    style={{ textAlign: "center", color: "var(--accent-text)" }}
+                  >
+                    The sale has ended.
                 </s.TextTitle>
 
-                <s.TextDescription
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  You can still find {CONFIG.NFT_NAME} on
+                  <s.TextDescription
+                    style={{ textAlign: "center", color: "var(--accent-text)" }}
+                  >
+                    You can still find {CONFIG.NFT_NAME} on
                 </s.TextDescription>
-                <s.SpacerSmall />
-                <StyledLink target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
-                  {CONFIG.MARKETPLACE}
-                </StyledLink>
-              </>
-            ) : (
-                <>
-                  {blockchain.account === "" ||
-                    blockchain.smartContract === null ? (
-                      <s.Container ai={"center"} jc={"center"}>
+                  <s.SpacerSmall />
+                  <StyledLink target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
+                    {CONFIG.MARKETPLACE}
+                  </StyledLink>
+                </>
+              ) : (
+                  <>
+                    {blockchain.account === "" ||
+                      blockchain.smartContract === null ? (
+                        <s.Container ai={"center"} jc={"center"}>
 
-                        <StyledButton
-                          style={{ fontFamily: "airstrike" }}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            dispatch(connect());
-                            getData();
-                          }}
-                        >
-                          CONNECT WALLET
-                    </StyledButton>
-
-                        {blockchain.errorMsg !== "" ? (
-                          <>
-                            <s.SpacerSmall />
-                            <s.TextDescription
-                              style={{
-                                textAlign: "center",
-                                color: "var(--accent-text)",
-                              }}
-                            >
-                              {blockchain.errorMsg}
-                            </s.TextDescription>
-                          </>
-                        ) : null}
-                      </s.Container>
-                    ) : (
-                      <>
-                        <s.TextDescription
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          {feedback}
-                        </s.TextDescription>
-
-                        <s.SpacerMedium />
-
-                        <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                          <StyledRoundButton
-                            style={{ lineHeight: 0.4 }}
-                            disabled={claimingNft ? 1 : 0}
+                          <StyledButton
+                            style={{ fontFamily: "airstrike" }}
                             onClick={(e) => {
                               e.preventDefault();
-                              decrementMintAmount();
+                              dispatch(connect());
+                              getData();
                             }}
                           >
-                            -
-                      </StyledRoundButton>
+                            CONNECT WALLET
+                    </StyledButton>
 
-                          <s.SpacerMedium />
-
+                          {blockchain.errorMsg !== "" ? (
+                            <>
+                              <s.SpacerSmall />
+                              <s.TextDescription
+                                style={{
+                                  textAlign: "center",
+                                  color: "var(--accent-text)",
+                                }}
+                              >
+                                {blockchain.errorMsg}
+                              </s.TextDescription>
+                            </>
+                          ) : null}
+                        </s.Container>
+                      ) : (
+                        <>
                           <s.TextDescription
                             style={{
                               textAlign: "center",
                               color: "var(--accent-text)",
-                              fontWeight: "bold",
                             }}
                           >
-                            {mintAmount}
+                            {feedback}
                           </s.TextDescription>
 
                           <s.SpacerMedium />
 
-                          <StyledRoundButton
-                            disabled={claimingNft ? 1 : 0}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              incrementMintAmount();
-                            }}
-                          >
-                            +
+                          <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                            <StyledRoundButton
+                              style={{ lineHeight: 0.4 }}
+                              disabled={claimingNft ? 1 : 0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                decrementMintAmount();
+                              }}
+                            >
+                              -
                       </StyledRoundButton>
-                        </s.Container>
-                        <s.SpacerSmall />
-                        <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                          <StyledButton
-                            style={{ fontFamily: "airstrike" }}
-                            // disabled={claimingNft ? 1 : 0}
-                            disabled={true}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              claimNFTs();
-                              getData();
-                            }}
-                          >
-                            {/* {claimingNft ? "MINTING" : "MINT"} */}
-                            New round soon.. Stay tuned!
+
+                            <s.SpacerMedium />
+
+                            <s.TextDescription
+                              style={{
+                                textAlign: "center",
+                                color: "var(--accent-text)",
+                                fontWeight: "bold",
+                              }}
+                            >
+                              {mintAmount}
+                            </s.TextDescription>
+
+                            <s.SpacerMedium />
+
+                            <StyledRoundButton
+                              disabled={claimingNft ? 1 : 0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                incrementMintAmount();
+                              }}
+                            >
+                              +
+                      </StyledRoundButton>
+                          </s.Container>
+                          <s.SpacerSmall />
+                          <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                            <StyledButton
+                              style={{ fontFamily: "airstrike" }}
+                              // disabled={claimingNft ? 1 : 0}
+                              disabled={true}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                claimNFTs();
+                                getData();
+                              }}
+                            >
+                              {/* {claimingNft ? "MINTING" : "MINT"} */}
+                              New round soon.. Stay tuned!
                       </StyledButton>
-                        </s.Container>
-                      </>
-                    )}
-                </>
-              )}
-            <s.SpacerMedium />
-          </s.Container>
+                          </s.Container>
+                        </>
+                      )}
+                  </>
+                )}
+              <s.SpacerMedium />
+            </s.Container>
 
-        </ResponsiveWrapper>
+          </ResponsiveWrapper>
 
-        <s.SpacerLarge />
-        <s.SpacerLarge />
+          <s.SpacerLarge />
+          <s.SpacerLarge />
 
-        <ResponsiveWrapper id="apes" flex={1} style={{ padding: "0 50px 0 50px" }}>
+          <ResponsiveWrapper id="apes" flex={1} style={{ padding: "0 50px 0 50px" }}>
 
-          <s.Container
-            flex={1}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: "0 50px 0 50px"
-            }}
-          >
-
-            <s.TextTitle
+            <s.Container
+              flex={1}
+              jc={"center"}
+              ai={"center"}
               style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
+                padding: "0 50px 0 50px"
               }}
             >
-              APES PREVIEWS
+
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                APES PREVIEWS
             </s.TextTitle>
 
-            <s.SpacerLarge />
+              <s.SpacerLarge />
 
-            <ApesPreviewSlider />
+              <ApesPreviewSlider />
 
-          </s.Container>
+            </s.Container>
 
-        </ResponsiveWrapper>
+          </ResponsiveWrapper>
 
-        <s.SpacerLarge />
-        <s.SpacerLarge />
+          <s.SpacerLarge />
+          <s.SpacerLarge />
 
-        <ResponsiveWrapper id="team" flex={1} style={{ padding: "0 50px 0 50px" }}>
+          <ResponsiveWrapper id="team" flex={1} style={{ padding: "0 50px 0 50px" }}>
 
-          <s.Container
-            flex={1}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: "0 50px 0 50px"
-            }}
-          >
-
-            <s.TextTitle
+            <s.Container
+              flex={1}
+              jc={"center"}
+              ai={"center"}
               style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
+                padding: "0 50px 0 50px"
               }}
             >
-              THE TEAM
+
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                THE TEAM
             </s.TextTitle>
 
-            <s.SpacerLarge />
+              <s.SpacerLarge />
 
-            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/monkey1.png"}
+              <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                <s.Container flex={1} jc={"center"} ai={"center"}>
+                  <StyledImg
+                    alt={"example"}
+                    src={"/config/images/monkey1.png"}
 
-                />
+                  />
 
-                <s.SpacerMedium />
+                  <s.SpacerMedium />
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                    }}
+                  >
 
-                  Project Founder
+                    Project Founder
                 </s.TextDescription>
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                    }}
+                  >
 
-                  Ketaros
+                    Ketaros
                 </s.TextDescription>
 
-                <StyledImg
-                  alt={"discord"}
-                  src={"/config/images/discord.png"}
-                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
-                    e.preventDefault();
-                    window.open('https://discord.gg/', '_blank');
-                  }}
-                />
-              </s.Container>
+                  <StyledImg
+                    alt={"discord"}
+                    src={"/config/images/discord.png"}
+                    style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                      e.preventDefault();
+                      window.open('https://discord.gg/', '_blank');
+                    }}
+                  />
+                </s.Container>
 
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/monkey2.png"}
+                <s.Container flex={1} jc={"center"} ai={"center"}>
+                  <StyledImg
+                    alt={"example"}
+                    src={"/config/images/monkey2.png"}
 
-                />
+                  />
 
-                <s.SpacerMedium />
+                  <s.SpacerMedium />
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                    }}
+                  >
 
-                  Developer
+                    Developer
                 </s.TextDescription>
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                    }}
+                  >
 
-                  FarTeck
+                    FarTeck
                 </s.TextDescription>
 
-                <StyledImg
-                  alt={"discord"}
-                  src={"/config/images/discord.png"}
-                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
-                    e.preventDefault();
-                    window.open('https://discord.gg/', '_blank');
-                  }}
-                />
-              </s.Container>
+                  <StyledImg
+                    alt={"discord"}
+                    src={"/config/images/discord.png"}
+                    style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                      e.preventDefault();
+                      window.open('https://discord.gg/', '_blank');
+                    }}
+                  />
+                </s.Container>
 
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/monkey3.png"}
+                <s.Container flex={1} jc={"center"} ai={"center"}>
+                  <StyledImg
+                    alt={"example"}
+                    src={"/config/images/monkey3.png"}
 
-                />
+                  />
 
-                <s.SpacerMedium />
+                  <s.SpacerMedium />
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                    }}
+                  >
 
-                  The Artist
+                    The Artist
                 </s.TextDescription>
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                    }}
+                  >
 
-                  Rob_Tasker
+                    Rob_Tasker
                 </s.TextDescription>
 
-                <StyledImg
-                  alt={"discord"}
-                  src={"/config/images/discord.png"}
-                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
-                    e.preventDefault();
-                    window.open('https://discord.gg/', '_blank');
-                  }}
-                />
-              </s.Container>
+                  <StyledImg
+                    alt={"discord"}
+                    src={"/config/images/discord.png"}
+                    style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                      e.preventDefault();
+                      window.open('https://discord.gg/', '_blank');
+                    }}
+                  />
+                </s.Container>
 
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/monkey4.png"}
+                <s.Container flex={1} jc={"center"} ai={"center"}>
+                  <StyledImg
+                    alt={"example"}
+                    src={"/config/images/monkey4.png"}
 
-                />
+                  />
 
-                <s.SpacerMedium />
+                  <s.SpacerMedium />
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)"
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)"
+                    }}
+                  >
 
-                  The Investor
+                    The Investor
                 </s.TextDescription>
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)"
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)"
+                    }}
+                  >
 
-                  Margot_IK
+                    Margot_IK
                 </s.TextDescription>
 
-                <StyledImg
-                  alt={"discord"}
-                  src={"/config/images/discord.png"}
-                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
-                    e.preventDefault();
-                    window.open('https://discord.gg/', '_blank');
-                  }}
-                />
-              </s.Container>
-            </ResponsiveWrapper>
+                  <StyledImg
+                    alt={"discord"}
+                    src={"/config/images/discord.png"}
+                    style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                      e.preventDefault();
+                      window.open('https://discord.gg/', '_blank');
+                    }}
+                  />
+                </s.Container>
+              </ResponsiveWrapper>
 
-          </s.Container>
+            </s.Container>
 
-        </ResponsiveWrapper>
+          </ResponsiveWrapper>
 
-        <s.SpacerLarge />
-        <s.SpacerLarge />
+          <s.SpacerLarge />
+          <s.SpacerLarge />
 
-        <ResponsiveWrapper id="traits" flex={1} style={{ padding: "0 50px 0 50px" }}>
+          <ResponsiveWrapper id="traits" flex={1} style={{ padding: "0 50px 0 50px" }}>
 
-          <s.Container
-            flex={1}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: "0 50px 0 50px"
-            }}
-          >
-
-            <s.TextTitle
+            <s.Container
+              flex={1}
+              jc={"center"}
+              ai={"center"}
               style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
+                padding: "0 50px 0 50px"
               }}
             >
-              TRAITS
+
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                TRAITS
             </s.TextTitle>
 
-            <s.SpacerLarge />
+              <s.SpacerLarge />
 
-            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <TraitsTableStyles>
-                  <Table columns={traitsTableCollums} data={traits}></Table>
-                </TraitsTableStyles>
-              </s.Container>
-            </ResponsiveWrapper>
+              <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                <s.Container flex={1} jc={"center"} ai={"center"}>
+                  <TraitsTableStyles>
+                    <Table columns={traitsTableCollums} data={traits}></Table>
+                  </TraitsTableStyles>
+                </s.Container>
+              </ResponsiveWrapper>
 
-          </s.Container>
+            </s.Container>
 
-        </ResponsiveWrapper>
+          </ResponsiveWrapper>
 
-        <s.SpacerLarge />
-        <s.SpacerLarge />
+          <s.SpacerLarge />
+          <s.SpacerLarge />
 
-        <ResponsiveWrapper id="links-faq" flex={1} style={{ padding: "0 50px 0 50px" }}>
+          <ResponsiveWrapper id="links-faq" flex={1} style={{ padding: "0 50px 0 50px" }}>
 
-          <s.Container
-            flex={1}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: "0 50px 0 50px"
-            }}
-          >
-
-            <s.TextTitle
+            <s.Container
+              flex={1}
+              jc={"center"}
+              ai={"center"}
               style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
+                padding: "0 50px 0 50px"
               }}
             >
-              LINKS
+
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                LINKS
             </s.TextTitle>
 
-            <s.SpacerLarge />
+              <s.SpacerLarge />
 
-            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }}
-                onClick={(e) => {
+              <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    goTo('discord');
+                  }}>
+
+                  <StyledImg
+                    alt={"discord"}
+                    src={"/config/images/discord.png"}
+                    style={{ transform: "scaleX(-1)", width: "45px" }}
+                  />
+
+                  <s.SpacerMedium />
+
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '14px'
+                    }}
+                  >
+
+                    DISCORD
+  
+                </s.TextDescription>
+
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '12px'
+                    }}
+                  >
+
+                    @u7AgwTFC
+                </s.TextDescription>
+
+                </s.Container>
+
+                <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
                   e.preventDefault();
-                  goTo('discord');
+                  goTo('twitter');
                 }}>
+                  <StyledImg
+                    alt={"example"}
+                    src={"/config/images/twitter.png"}
+                    style={{ transform: "scaleX(-1)", width: "45px" }}
+                  />
 
-                <StyledImg
-                  alt={"discord"}
-                  src={"/config/images/discord.png"}
-                  style={{ transform: "scaleX(-1)", width: "45px" }}
-                />
+                  <s.SpacerMedium />
 
-                <s.SpacerMedium />
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '14px'
+                    }}
+                  >
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '14px'
-                  }}
-                >
-
-                  DISCORD
-
+                    TWITTER
                 </s.TextDescription>
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '12px'
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '12px'
+                    }}
+                  >
 
-                  @u7AgwTFC
+                    @ApesFun
+                </s.TextDescription>
+                </s.Container>
+
+                <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
+                  e.preventDefault();
+                  goTo('instagram');
+                }}>
+                  <StyledImg
+                    alt={"example"}
+                    src={"/config/images/instagram.png"}
+                    style={{ transform: "scaleX(-1)", width: "45px" }}
+                  />
+
+                  <s.SpacerMedium />
+
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '14px'
+                    }}
+                  >
+
+                    INSTAGRAM
                 </s.TextDescription>
 
-              </s.Container>
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '12px'
+                    }}
+                  >
 
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
-                e.preventDefault();
-                goTo('twitter');
-              }}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/twitter.png"}
-                  style={{ transform: "scaleX(-1)", width: "45px" }}
-                />
+                    @bored_apes_fc
+                </s.TextDescription>
+                </s.Container>
 
-                <s.SpacerMedium />
+                <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
+                  e.preventDefault();
+                  goTo('opensea');
+                }}>
+                  <StyledImg
+                    alt={"example"}
+                    src={"/config/images/opensea.png"}
+                    style={{ transform: "scaleX(-1)", width: "45px" }}
+                  />
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '14px'
-                  }}
-                >
+                  <s.SpacerMedium />
 
-                  TWITTER
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '14px'
+                    }}
+                  >
+
+                    OPEN SEA
+  
                 </s.TextDescription>
 
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '12px'
-                  }}
-                >
+                  <s.TextDescription
+                    style={{
+                      textAlign: "center",
+                      color: "var(--accent-text)",
+                      fontSize: '12px'
+                    }}
+                  >
 
-                  @ApesFun
+                    @Bored Apes Fan Club
                 </s.TextDescription>
-              </s.Container>
+                </s.Container>
+              </ResponsiveWrapper>
 
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
-                e.preventDefault();
-                goTo('instagram');
-              }}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/instagram.png"}
-                  style={{ transform: "scaleX(-1)", width: "45px" }}
-                />
+            </s.Container>
 
-                <s.SpacerMedium />
-
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '14px'
-                  }}
-                >
-
-                  INSTAGRAM
-                </s.TextDescription>
-
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '12px'
-                  }}
-                >
-
-                  @bored_apes_fc
-                </s.TextDescription>
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"} style={{ cursor: "pointer" }} onClick={(e) => {
-                e.preventDefault();
-                goTo('opensea');
-              }}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/opensea.png"}
-                  style={{ transform: "scaleX(-1)", width: "45px" }}
-                />
-
-                <s.SpacerMedium />
-
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '14px'
-                  }}
-                >
-
-                  OPEN SEA
-
-                </s.TextDescription>
-
-                <s.TextDescription
-                  style={{
-                    textAlign: "center",
-                    color: "var(--accent-text)",
-                    fontSize: '12px'
-                  }}
-                >
-
-                  @Bored Apes Fan Club
-                </s.TextDescription>
-              </s.Container>
-            </ResponsiveWrapper>
-
-          </s.Container>
-
-          <s.Container
-            flex={2}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: "0 50px 0 50px"
-            }}
-          >
-
-            <s.TextTitle
+            <s.Container
+              flex={2}
+              jc={"center"}
+              ai={"center"}
               style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
+                padding: "0 50px 0 50px"
               }}
             >
-              FAQ
+
+              <s.TextTitle
+                style={{
+                  textAlign: "center",
+                  fontSize: "4rem",
+                  fontWeight: "bold",
+                  color: "var(--accent-text)",
+                }}
+              >
+                FAQ
             </s.TextTitle>
 
-            <ul>
-              <li style={{ cursor: 'pointer' }} onClick={(e) => {
-                e.preventDefault();
-                handleAccordionClick();
-              }}>
-                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                  <s.Container
-                    flex={1}
-                    jc={"center"}
-                    ai={"center"}
-                    style={{
-                      padding: 0
-                    }}
-                  >
+              <ul>
+                <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                  e.preventDefault();
+                  handleAccordionClick();
+                }}>
+                  <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                    <s.Container
+                      flex={1}
+                      jc={"center"}
+                      ai={"center"}
+                      style={{
+                        padding: 0
+                      }}
+                    >
 
-                    <AccordionWrapper>
+                      <AccordionWrapper>
 
-                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                        <s.Container
-                          flex={11}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <s.TextDescription
+                        <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                          <s.Container
+                            flex={11}
+                            jc={"center"}
+                            ai={"center"}
                             style={{
-                              textAlign: "justify"
+                              padding: 0
                             }}
                           >
 
-                            I - What is NFT?
+                            <s.TextDescription
+                              style={{
+                                textAlign: "justify"
+                              }}
+                            >
+
+                              I - What is NFT?
                           </s.TextDescription>
 
-                          <InternalAccordionWrapper open={open}>
-                            NFT stands for “Non-fungible token” and is a cool way of saying it's a truly unique digital item that YOU can buy, own, and trade.
+                            <InternalAccordionWrapper open={open}>
+                              NFT stands for “Non-fungible token” and is a cool way of saying it's a truly unique digital item that YOU can buy, own, and trade.
                           </InternalAccordionWrapper>
 
-                        </s.Container>
+                          </s.Container>
 
-                        <s.Container
-                          flex={1}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <StyledRoundButton
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleAccordionClick();
-                            }}
-                          >
-                            {!open ? '+' : '-'}
-                          </StyledRoundButton>
-
-
-                        </s.Container>
-                      </ResponsiveWrapper>
-                    </AccordionWrapper>
-
-                  </s.Container>
-
-                </ResponsiveWrapper>
-
-              </li>
-
-              <s.SpacerSmall />
-
-              <li style={{ cursor: 'pointer' }} onClick={(e) => {
-                e.preventDefault();
-                handleAccordionClick();
-              }}>
-                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                  <s.Container
-                    flex={1}
-                    jc={"center"}
-                    ai={"center"}
-                    style={{
-                      padding: 0
-                    }}
-                  >
-
-                    <AccordionWrapper>
-
-                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                        <s.Container
-                          flex={11}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <s.TextDescription
+                          <s.Container
+                            flex={1}
+                            jc={"center"}
+                            ai={"center"}
                             style={{
-                              textAlign: "justify"
+                              padding: 0
                             }}
                           >
 
-                            II - What is Metamask?
+                            <StyledRoundButton
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleAccordionClick();
+                              }}
+                            >
+                              {!open ? '+' : '-'}
+                            </StyledRoundButton>
+
+
+                          </s.Container>
+                        </ResponsiveWrapper>
+                      </AccordionWrapper>
+
+                    </s.Container>
+
+                  </ResponsiveWrapper>
+
+                </li>
+
+                <s.SpacerSmall />
+
+                <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                  e.preventDefault();
+                  handleAccordionClick();
+                }}>
+                  <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                    <s.Container
+                      flex={1}
+                      jc={"center"}
+                      ai={"center"}
+                      style={{
+                        padding: 0
+                      }}
+                    >
+
+                      <AccordionWrapper>
+
+                        <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                          <s.Container
+                            flex={11}
+                            jc={"center"}
+                            ai={"center"}
+                            style={{
+                              padding: 0
+                            }}
+                          >
+
+                            <s.TextDescription
+                              style={{
+                                textAlign: "justify"
+                              }}
+                            >
+
+                              II - What is Metamask?
                           </s.TextDescription>
 
-                          <InternalAccordionWrapper open={open}>
-                            Metamask is a crypto-wallet that can store your Ethereum, and is needed to purchase and mint a Bored Apes. Having a wallet gives you an Ethereum address (i.e. 0xSPOO….666), this is where your NFT will be stored. Learn more about Metamask and how easy it is to use over here! (https://metamask.io).
+                            <InternalAccordionWrapper open={open}>
+                              Metamask is a crypto-wallet that can store your Ethereum, and is needed to purchase and mint a Bored Apes. Having a wallet gives you an Ethereum address (i.e. 0xSPOO….666), this is where your NFT will be stored. Learn more about Metamask and how easy it is to use over here! (https://metamask.io).
                           </InternalAccordionWrapper>
 
-                        </s.Container>
+                          </s.Container>
 
-                        <s.Container
-                          flex={1}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <StyledRoundButton
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleAccordionClick();
-                            }}
-                          >
-                            {!open ? '+' : '-'}
-                          </StyledRoundButton>
-
-
-                        </s.Container>
-                      </ResponsiveWrapper>
-                    </AccordionWrapper>
-
-                  </s.Container>
-
-                </ResponsiveWrapper>
-
-              </li>
-
-              <s.SpacerSmall />
-
-              <li style={{ cursor: 'pointer' }} onClick={(e) => {
-                e.preventDefault();
-                handleAccordionClick();
-              }}>
-                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                  <s.Container
-                    flex={1}
-                    jc={"center"}
-                    ai={"center"}
-                    style={{
-                      padding: 0
-                    }}
-                  >
-
-                    <AccordionWrapper>
-
-                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                        <s.Container
-                          flex={11}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <s.TextDescription
+                          <s.Container
+                            flex={1}
+                            jc={"center"}
+                            ai={"center"}
                             style={{
-                              textAlign: "justify"
+                              padding: 0
                             }}
                           >
 
-                            III - How to mint with Metamask on a mobile phone?
+                            <StyledRoundButton
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleAccordionClick();
+                              }}
+                            >
+                              {!open ? '+' : '-'}
+                            </StyledRoundButton>
+
+
+                          </s.Container>
+                        </ResponsiveWrapper>
+                      </AccordionWrapper>
+
+                    </s.Container>
+
+                  </ResponsiveWrapper>
+
+                </li>
+
+                <s.SpacerSmall />
+
+                <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                  e.preventDefault();
+                  handleAccordionClick();
+                }}>
+                  <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                    <s.Container
+                      flex={1}
+                      jc={"center"}
+                      ai={"center"}
+                      style={{
+                        padding: 0
+                      }}
+                    >
+
+                      <AccordionWrapper>
+
+                        <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                          <s.Container
+                            flex={11}
+                            jc={"center"}
+                            ai={"center"}
+                            style={{
+                              padding: 0
+                            }}
+                          >
+
+                            <s.TextDescription
+                              style={{
+                                textAlign: "justify"
+                              }}
+                            >
+
+                              III - How to mint with Metamask on a mobile phone?
                           </s.TextDescription>
 
-                          <InternalAccordionWrapper open={open}>
-                            If you are using a mobile phone to mint our Bored Apes, you need to use the Metamask application built-in browser to mint our NFTs. Therefore, please launch the Metamask application, click the 3 lines on the top left menu in the application and select "Browser". It will open a web browser and you will be able to navigate back to bafc.fun to do the minting.
+                            <InternalAccordionWrapper open={open}>
+                              If you are using a mobile phone to mint our Bored Apes, you need to use the Metamask application built-in browser to mint our NFTs. Therefore, please launch the Metamask application, click the 3 lines on the top left menu in the application and select "Browser". It will open a web browser and you will be able to navigate back to bafc.fun to do the minting.
                           </InternalAccordionWrapper>
 
-                        </s.Container>
+                          </s.Container>
 
-                        <s.Container
-                          flex={1}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <StyledRoundButton
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleAccordionClick();
-                            }}
-                          >
-                            {!open ? '+' : '-'}
-                          </StyledRoundButton>
-
-
-                        </s.Container>
-                      </ResponsiveWrapper>
-                    </AccordionWrapper>
-
-                  </s.Container>
-
-                </ResponsiveWrapper>
-
-              </li>
-
-              <s.SpacerSmall />
-
-              <li style={{ cursor: 'pointer' }} onClick={(e) => {
-                e.preventDefault();
-                handleAccordionClick();
-              }}>
-                <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                  <s.Container
-                    flex={1}
-                    jc={"center"}
-                    ai={"center"}
-                    style={{
-                      padding: 0
-                    }}
-                  >
-
-                    <AccordionWrapper>
-
-                      <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-                        <s.Container
-                          flex={11}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <s.TextDescription
+                          <s.Container
+                            flex={1}
+                            jc={"center"}
+                            ai={"center"}
                             style={{
-                              textAlign: "justify"
+                              padding: 0
                             }}
                           >
 
-                            IV - How to mint with Metamask on a computer?
+                            <StyledRoundButton
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleAccordionClick();
+                              }}
+                            >
+                              {!open ? '+' : '-'}
+                            </StyledRoundButton>
+
+
+                          </s.Container>
+                        </ResponsiveWrapper>
+                      </AccordionWrapper>
+
+                    </s.Container>
+
+                  </ResponsiveWrapper>
+
+                </li>
+
+                <s.SpacerSmall />
+
+                <li style={{ cursor: 'pointer' }} onClick={(e) => {
+                  e.preventDefault();
+                  handleAccordionClick();
+                }}>
+                  <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                    <s.Container
+                      flex={1}
+                      jc={"center"}
+                      ai={"center"}
+                      style={{
+                        padding: 0
+                      }}
+                    >
+
+                      <AccordionWrapper>
+
+                        <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+                          <s.Container
+                            flex={11}
+                            jc={"center"}
+                            ai={"center"}
+                            style={{
+                              padding: 0
+                            }}
+                          >
+
+                            <s.TextDescription
+                              style={{
+                                textAlign: "justify"
+                              }}
+                            >
+
+                              IV - How to mint with Metamask on a computer?
                           </s.TextDescription>
 
-                          <InternalAccordionWrapper open={open}>
-                            If you are using a computer to mint our Bored Apes, you just need to connect the Metamask plugin with our website, verify you have enough ETH to do the transaction, then you will be able to click on the Mint button to buy a few Apes.
+                            <InternalAccordionWrapper open={open}>
+                              If you are using a computer to mint our Bored Apes, you just need to connect the Metamask plugin with our website, verify you have enough ETH to do the transaction, then you will be able to click on the Mint button to buy a few Apes.
                           </InternalAccordionWrapper>
 
-                        </s.Container>
+                          </s.Container>
 
-                        <s.Container
-                          flex={1}
-                          jc={"center"}
-                          ai={"center"}
-                          style={{
-                            padding: 0
-                          }}
-                        >
-
-                          <StyledRoundButton
-                            onClick={(e) => {
-                              e.preventDefault();
-                              handleAccordionClick();
+                          <s.Container
+                            flex={1}
+                            jc={"center"}
+                            ai={"center"}
+                            style={{
+                              padding: 0
                             }}
                           >
-                            {!open ? '+' : '-'}
-                          </StyledRoundButton>
+
+                            <StyledRoundButton
+                              onClick={(e) => {
+                                e.preventDefault();
+                                handleAccordionClick();
+                              }}
+                            >
+                              {!open ? '+' : '-'}
+                            </StyledRoundButton>
 
 
-                        </s.Container>
-                      </ResponsiveWrapper>
-                    </AccordionWrapper>
+                          </s.Container>
+                        </ResponsiveWrapper>
+                      </AccordionWrapper>
 
-                  </s.Container>
+                    </s.Container>
 
-                </ResponsiveWrapper>
+                  </ResponsiveWrapper>
 
-              </li>
-            </ul>
-          </s.Container>
+                </li>
+              </ul>
+            </s.Container>
 
-        </ResponsiveWrapper>
+          </ResponsiveWrapper>
 
-        <s.SpacerLarge />
-        <s.SpacerLarge />
+          <s.SpacerLarge />
+          <s.SpacerLarge />
 
-        <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
-          <s.TextDescription
-            style={{
-              textAlign: "center",
-              color: "var(--primary-text)",
-            }}
-          >
-            Please make sure you are connected to the right network (
+          <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
+            <s.TextDescription
+              style={{
+                textAlign: "center",
+                color: "var(--primary-text)",
+              }}
+            >
+              Please make sure you are connected to the right network (
             {CONFIG.NETWORK.NAME} Mainnet) and the correct address. Please note:
-            Once you make the purchase, you cannot undo this action.
+              Once you make the purchase, you cannot undo this action.
           </s.TextDescription>
-          <s.SpacerSmall />
-          <s.TextDescription
-            style={{
-              textAlign: "center",
-              color: "var(--primary-text)",
-            }}
-          >
-            We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
-            successfully mint your NFT. We recommend that you don't lower the
-            gas limit.
+            <s.SpacerSmall />
+            <s.TextDescription
+              style={{
+                textAlign: "center",
+                color: "var(--primary-text)",
+              }}
+            >
+              We have set the gas limit to {CONFIG.GAS_LIMIT} for the contract to
+              successfully mint your NFT. We recommend that you don't lower the
+              gas limit.
           </s.TextDescription>
-        </s.Container>
+          </s.Container>
       </s.Container>
 
-      <s.SpacerLarge /><s.SpacerLarge />
+        <s.SpacerLarge /><s.SpacerLarge />
     </s.Screen>
-  );
-}
-
-export default App;
+      );
+    }
+    
+    export default App;
