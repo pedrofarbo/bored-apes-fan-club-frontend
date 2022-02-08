@@ -5,6 +5,7 @@ import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
 import { useTable } from "react-table";
+import Slider from 'react-styled-carousel';
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -180,7 +181,6 @@ export const TraitsTableStyles = styled.div`
 
      :last-child {
        border-right: 0;
-       font-weight: 400;
      }
    }
   
@@ -234,8 +234,88 @@ function Table({ columns, data }) {
   )
 }
 
+function ApesPreviewSlider() {
+  return (
+    <Slider style={{width: "100%", maxWidth: "1900px"}} showDots={false} infinite={true} showArrows={false} padding={"0"} margin={"0"} autoSlide={1600} cardsToShow={6}>
+   
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/1.png"}
+          />
+   
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/2.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/3.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/4.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/5.png"}
+
+          />
+    
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/6.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/7.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/8.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/9.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/10.png"}
+
+          />
+      
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/11.png"}
+
+          />
+
+          <StyledImg
+            alt={"example"}
+            src={"/config/images/apes_preview/12.png"}
+
+          />
+    </Slider>
+  )
+}
+
 function App() {
   const [open, setOpen] = useState(false);
+
+
 
   const traits = React.useMemo(() =>
     [
@@ -736,110 +816,7 @@ function App() {
 
             <s.SpacerLarge />
 
-            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/1.png"}
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/2.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/3.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/4.png"}
-
-                />
-              </s.Container>
-            </ResponsiveWrapper>
-
-            <s.SpacerLarge />
-
-            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/5.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/6.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/7.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/8.png"}
-
-                />
-              </s.Container>
-            </ResponsiveWrapper>
-
-            <s.SpacerLarge />
-
-            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/9.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/10.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/11.png"}
-
-                />
-              </s.Container>
-
-              <s.Container flex={1} jc={"center"} ai={"center"}>
-                <StyledImg
-                  alt={"example"}
-                  src={"/config/images/apes_preview/12.png"}
-
-                />
-              </s.Container>
-            </ResponsiveWrapper>
+            <ApesPreviewSlider />
 
           </s.Container>
 
