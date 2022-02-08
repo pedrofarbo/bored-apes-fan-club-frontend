@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { connect, connectContract } from "./redux/blockchain/blockchainActions";
+import { connect } from "./redux/blockchain/blockchainActions";
 import { fetchData } from "./redux/data/dataActions";
 import * as s from "./styles/globalStyles";
 import styled from "styled-components";
+import { useTable } from "react-table";
 
 const truncate = (input, len) =>
   input.length > len ? `${input.substring(0, len)}...` : input;
@@ -76,7 +77,9 @@ export const AccordionWrapper = styled.div`
     text-align: center;
     width: 100%;
     transition: all 0.6s ease-in-out;
-    color: var(--accent-text);
+    font-family: unset;
+    font-size: 13px;
+    font-weight: 500;
 `;
 
 export const InternalAccordionWrapper = styled.div`
@@ -86,6 +89,9 @@ export const InternalAccordionWrapper = styled.div`
     margin-top: ${(props) => (props.open ? '10px' : '0')};
     transition: all 0.4s ease-in-out;
     overflow: hidden;
+    font-family: unset;
+    font-size: 13px;
+    font-weight: 400;
 `;
 
 export const StyledLogo = styled.img`
@@ -99,7 +105,6 @@ export const StyledLogo = styled.img`
 `;
 
 export const StyledImg = styled.img`
-  border-radius: 100%;
   width: 200px;
   @media (min-width: 900px) {
     width: 250px;
@@ -115,8 +120,192 @@ export const StyledLink = styled.a`
   text-decoration: none;
 `;
 
+export const Line = styled.div`
+  position: relative;
+  max-width: 1380px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -ms-flex-align: center !important;
+  align-items: center !important;
+  -ms-flex-pack: center !important;
+  justify-content: center !important;
+`;
+
+export const Menu = styled.div`
+  position: relative;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  width: 70%;
+`;
+
+export const MenuLinks = styled.div`
+  list-style: none;
+  display: flex;
+  justify-content: flex-end;
+  width: 30%;
+`;
+
+export const TraitsTableStyles = styled.div`
+ table {
+   border-spacing: 0;
+   border: 2px solid var(--secondary);
+   background-color: var(--primary-text);
+   width: 480px;
+   font-weight: bold;
+
+   tr {
+    fontWeight: bold;
+     :last-child {
+       td {
+         border-bottom: 0;
+         font-weight: 400;
+       }
+     }
+   }
+
+   th,
+   td {
+     padding: 0.5rem;
+     border-bottom: 1px solid var(--secondary);
+     border-right: 1px solid var(--secondary);
+     font-weight: 400;
+
+     :last-child {
+       border-right: 0;
+       font-weight: 400;
+     }
+   }
+  
+   th {
+     background: var(--secondary);
+     border-bottom: 3px solid var(--secondary);
+     color: white;
+     font-weight: bold;
+   }
+ }
+`
+
+function Table({ columns, data }) {
+  // Use the state and functions returned from useTable to build your UI
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+  } = useTable({
+    columns,
+    data,
+  })
+
+  // Render the UI for your table
+  return (
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map(headerGroup => (
+          <tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th {...column.getHeaderProps()}>{column.render('Header')}</th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map((row, i) => {
+          prepareRow(row)
+          return (
+            <tr {...row.getRowProps()}>
+              {row.cells.map(cell => {
+                return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+              })}
+            </tr>
+          )
+        })}
+      </tbody>
+    </table>
+  )
+}
+
 function App() {
   const [open, setOpen] = useState(false);
+
+  const traits = React.useMemo(() =>
+    [
+      {
+        trait: 'Background',
+        common: '9',
+        uncommon: '9',
+        rare: '9',
+      },
+      {
+        trait: 'Furs',
+        common: '10',
+        uncommon: '10',
+        rare: '10',
+      },
+      {
+        trait: 'Hats',
+        common: '19',
+        uncommon: '17',
+        rare: '12',
+      },
+      {
+        trait: 'Clothes',
+        common: '29',
+        uncommon: '23',
+        rare: '18',
+      },
+      {
+        trait: 'Eyes',
+        common: '13',
+        uncommon: '13',
+        rare: '11',
+      },
+      {
+        trait: 'Mouths',
+        common: '18',
+        uncommon: '14',
+        rare: '13',
+      },
+      {
+        trait: 'Decorations',
+        common: '-',
+        uncommon: '20',
+        rare: '-',
+      },
+    ],
+    []
+  )
+
+  const traitsTableCollums = React.useMemo(
+    () => [
+      {
+        Header: 'Trait',
+        accessor: 'trait',
+      },
+      {
+        Header: 'Common',
+        accessor: 'common',
+      },
+      {
+        Header: 'Uncommon',
+        accessor: 'uncommon',
+      },
+      {
+        Header: 'Rare',
+        accessor: 'rare',
+      },
+    ],
+    []
+  )
 
   const handleAccordionClick = () => {
     setOpen(!open);
@@ -126,7 +315,7 @@ function App() {
   const blockchain = useSelector((state) => state.blockchain);
   const data = useSelector((state) => state.data);
   const [claimingNft, setClaimingNft] = useState(false);
-  const [feedback, setFeedback] = useState(`How much you want to mint?`);
+  const [feedback, setFeedback] = useState(`How many you want to mint?`);
   const [mintAmount, setMintAmount] = useState(1);
   const [CONFIG, SET_CONFIG] = useState({
     CONTRACT_ADDRESS: "",
@@ -248,198 +437,73 @@ function App() {
           <StyledLogo alt={"logo"} src={"/config/images/logo.png"} />
         </a>
 
-        <ResponsiveWrapper flex={1} style={{ padding: 24 }} test>
-          {/* <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg alt={"example"} src={"/config/images/bored_gif_1.gif"} />
-          </s.Container> */}
+        <s.SpacerLarge />
+        <s.SpacerLarge />
 
-          <s.SpacerLarge />
+        <Line>
+          <Menu>
+            <ul className="menu-ul">
+              <li className="menu-li"><a href="/#about"><span>About the BAFC</span></a></li>
+              <li className="division"> / </li>
+              <li className="menu-li"><a href="/#apes"><span>Apes Previews</span></a></li>
+              <li className="division"> / </li>
+              <li className="menu-li"><a href="/#traits"><span>Traits</span></a></li>
+              <li className="division"> / </li>
+              <li className="menu-li"><a href="/#team"><span>The Team</span></a></li>
+              <li className="division"> / </li>
+              <li className="menu-li"><a href="/#links-faq"><span>Links</span></a></li>
+              <li className="division"> / </li>
+              <li className="menu-li"><a href="/#links-faq"><span>Faq</span></a></li>
+            </ul>
 
-          <s.Container
-            flex={2}
-            jc={"center"}
-            ai={"center"}
-            style={{
-              padding: 24
-            }}
-          >
-            <StyledImg
+            <MenuLinks className="menuLinks" style={{ cursor: "pointer" }}>
+              <StyledImg
+                alt={"discord"}
+                src={"/config/images/ico-discord.svg"}
+                style={{ width: "22px", height: "100%", margin: "0 6px" }} onClick={(e) => {
+                  e.preventDefault();
+                  goTo("discord");
+                }}
+              />
 
-              style={{
-                border: "6px dotted var(--secondary)"
-              }}
+              <StyledImg
+                alt={"twitter"}
+                src={"/config/images/ico-twitter.svg"}
+                style={{ width: "22px", height: "100%", margin: "0 6px" }} onClick={(e) => {
+                  e.preventDefault();
+                  goTo("twitter");
+                }}
+              />
 
-              alt={"Bored Apes Preview"} src={"./logo512.png"} />
+              <StyledImg
+                alt={"instagram"}
+                src={"/config/images/ico-instagram.svg"}
+                style={{ width: "22px", height: "100%", margin: "0 6px" }} onClick={(e) => {
+                  e.preventDefault();
+                  goTo("instagram");
+                }}
+              />
+            </MenuLinks>
+          </Menu>
 
-            <s.TextTitle
-              style={{
-                textAlign: "center",
-                fontSize: "4rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
-              }}
-            >
-              {/* {data.totalSupply}/{CONFIG.MAX_SUPPLY} */}
-              153/10000
-            </s.TextTitle>
+          <div class="btnMenuHamburguer">
+            <div class="solidoMenuHamburguer">
+              <span></span>
+            </div>
+          </div>
+        </Line>
 
-            <s.TextTitle
-              style={{
-                textAlign: "center",
-                fontSize: "2rem",
-                fontWeight: "bold",
-                color: "var(--accent-text)",
-                marginTop: "-20px",
-                fontFamily: "airstrike"
-              }}
-            >
-              MINTED
-            </s.TextTitle>
+        <s.SpacerLarge />
+        <s.SpacerLarge />
 
-            <s.SpacerSmall />
-
-            {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
-              <>
-                <s.TextTitle
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  The sale has ended.
-                </s.TextTitle>
-
-                <s.TextDescription
-                  style={{ textAlign: "center", color: "var(--accent-text)" }}
-                >
-                  You can still find {CONFIG.NFT_NAME} on
-                </s.TextDescription>
-                <s.SpacerSmall />
-                <StyledLink target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
-                  {CONFIG.MARKETPLACE}
-                </StyledLink>
-              </>
-            ) : (
-              <>
-                {blockchain.account === "" ||
-                  blockchain.smartContract === null ? (
-                  <s.Container ai={"center"} jc={"center"}>
-
-                    <StyledButton
-                      style={{ fontFamily: "airstrike" }}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(connect());
-                        getData();
-                      }}
-                    >
-                      CONNECT WALLET
-                    </StyledButton>
-
-                    {blockchain.errorMsg !== "" ? (
-                      <>
-                        <s.SpacerSmall />
-                        <s.TextDescription
-                          style={{
-                            textAlign: "center",
-                            color: "var(--accent-text)",
-                          }}
-                        >
-                          {blockchain.errorMsg}
-                        </s.TextDescription>
-                      </>
-                    ) : null}
-                  </s.Container>
-                ) : (
-                  <>
-                    <s.TextDescription
-                      style={{
-                        textAlign: "center",
-                        color: "var(--accent-text)",
-                      }}
-                    >
-                      {feedback}
-                    </s.TextDescription>
-
-                    <s.SpacerMedium />
-
-                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                      <StyledRoundButton
-                        style={{ lineHeight: 0.4 }}
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          decrementMintAmount();
-                        }}
-                      >
-                        -
-                      </StyledRoundButton>
-
-                      <s.SpacerMedium />
-
-                      <s.TextDescription
-                        style={{
-                          textAlign: "center",
-                          color: "var(--accent-text)",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        {mintAmount}
-                      </s.TextDescription>
-
-                      <s.SpacerMedium />
-
-                      <StyledRoundButton
-                        disabled={claimingNft ? 1 : 0}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          incrementMintAmount();
-                        }}
-                      >
-                        +
-                      </StyledRoundButton>
-                    </s.Container>
-                    <s.SpacerSmall />
-                    <s.Container ai={"center"} jc={"center"} fd={"row"}>
-                      <StyledButton
-                        style={{ fontFamily: "airstrike" }}
-                        // disabled={claimingNft ? 1 : 0}
-                        disabled={true}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          claimNFTs();
-                          getData();
-                        }}
-                      >
-                        {/* {claimingNft ? "MINTING" : "MINT"} */}
-                        New round soon.. Stay tuned!
-                      </StyledButton>
-                    </s.Container>
-                  </>
-                )}
-              </>
-            )}
-            <s.SpacerMedium />
-          </s.Container>
-          <s.SpacerLarge />
-
-          {/* <s.Container flex={1} jc={"center"} ai={"center"}>
-            <StyledImg
-              alt={"example"}
-              src={"/config/images/bored_gif_2.gif"}
-              style={{ transform: "scaleX(-1)" }}
-            />
-          </s.Container> */}
-
-        </ResponsiveWrapper>
-
-        <s.SpacerMedium />
-
-        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+        <ResponsiveWrapper flex={1} style={{ padding: 24 }}>
 
           <s.Container
             flex={2}
             jc={"center"}
             ai={"center"}
             style={{
-              padding: "0 50px 0 50px"
+              padding: "0 0 0 100px"
             }}
           >
 
@@ -478,11 +542,177 @@ function App() {
 
           </s.Container>
 
+          <s.Container
+            flex={2}
+            jc={"center"}
+            ai={"center"}
+            style={{
+              padding: 0
+            }}
+          >
+            <StyledImg
+
+              style={{
+                border: "6px dotted var(--secondary)",
+                borderRadius: "100%"
+              }}
+
+              alt={"Bored Apes Preview"} src={"./logo512.png"} />
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "4rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+              }}
+            >
+              {/* {data.totalSupply}/{CONFIG.MAX_SUPPLY} */}
+              0/10000
+            </s.TextTitle>
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "2rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+                marginTop: "-20px",
+                fontFamily: "airstrike"
+              }}
+            >
+              MINTED
+            </s.TextTitle>
+
+            <s.SpacerSmall />
+
+            {Number(data.totalSupply) >= CONFIG.MAX_SUPPLY ? (
+              <>
+                <s.TextTitle
+                  style={{ textAlign: "center", color: "var(--accent-text)" }}
+                >
+                  The sale has ended.
+                </s.TextTitle>
+
+                <s.TextDescription
+                  style={{ textAlign: "center", color: "var(--accent-text)" }}
+                >
+                  You can still find {CONFIG.NFT_NAME} on
+                </s.TextDescription>
+                <s.SpacerSmall />
+                <StyledLink target={"_blank"} href={CONFIG.MARKETPLACE_LINK}>
+                  {CONFIG.MARKETPLACE}
+                </StyledLink>
+              </>
+            ) : (
+                <>
+                  {blockchain.account === "" ||
+                    blockchain.smartContract === null ? (
+                      <s.Container ai={"center"} jc={"center"}>
+
+                        <StyledButton
+                          style={{ fontFamily: "airstrike" }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            dispatch(connect());
+                            getData();
+                          }}
+                        >
+                          CONNECT WALLET
+                    </StyledButton>
+
+                        {blockchain.errorMsg !== "" ? (
+                          <>
+                            <s.SpacerSmall />
+                            <s.TextDescription
+                              style={{
+                                textAlign: "center",
+                                color: "var(--accent-text)",
+                              }}
+                            >
+                              {blockchain.errorMsg}
+                            </s.TextDescription>
+                          </>
+                        ) : null}
+                      </s.Container>
+                    ) : (
+                      <>
+                        <s.TextDescription
+                          style={{
+                            textAlign: "center",
+                            color: "var(--accent-text)",
+                          }}
+                        >
+                          {feedback}
+                        </s.TextDescription>
+
+                        <s.SpacerMedium />
+
+                        <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                          <StyledRoundButton
+                            style={{ lineHeight: 0.4 }}
+                            disabled={claimingNft ? 1 : 0}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              decrementMintAmount();
+                            }}
+                          >
+                            -
+                      </StyledRoundButton>
+
+                          <s.SpacerMedium />
+
+                          <s.TextDescription
+                            style={{
+                              textAlign: "center",
+                              color: "var(--accent-text)",
+                              fontWeight: "bold",
+                            }}
+                          >
+                            {mintAmount}
+                          </s.TextDescription>
+
+                          <s.SpacerMedium />
+
+                          <StyledRoundButton
+                            disabled={claimingNft ? 1 : 0}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              incrementMintAmount();
+                            }}
+                          >
+                            +
+                      </StyledRoundButton>
+                        </s.Container>
+                        <s.SpacerSmall />
+                        <s.Container ai={"center"} jc={"center"} fd={"row"}>
+                          <StyledButton
+                            style={{ fontFamily: "airstrike" }}
+                            // disabled={claimingNft ? 1 : 0}
+                            disabled={true}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              claimNFTs();
+                              getData();
+                            }}
+                          >
+                            {/* {claimingNft ? "MINTING" : "MINT"} */}
+                            New round soon.. Stay tuned!
+                      </StyledButton>
+                        </s.Container>
+                      </>
+                    )}
+                </>
+              )}
+            <s.SpacerMedium />
+          </s.Container>
+
         </ResponsiveWrapper>
 
-        <s.SpacerMedium />
+        <s.SpacerLarge />
+        <s.SpacerLarge />
 
-        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+        <ResponsiveWrapper id="apes" flex={1} style={{ padding: "0 50px 0 50px" }}>
 
           <s.Container
             flex={1}
@@ -511,7 +741,6 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/1.png"}
-                  style={{ transform: "scaleX(-1)" }}
                 />
               </s.Container>
 
@@ -519,7 +748,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/2.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -527,7 +756,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/3.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -535,7 +764,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/4.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
             </ResponsiveWrapper>
@@ -547,7 +776,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/5.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -555,7 +784,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/6.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -563,7 +792,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/7.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -571,7 +800,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/8.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
             </ResponsiveWrapper>
@@ -583,7 +812,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/9.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -591,7 +820,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/10.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -599,7 +828,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/11.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
 
@@ -607,7 +836,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/apes_preview/12.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
               </s.Container>
             </ResponsiveWrapper>
@@ -616,9 +845,10 @@ function App() {
 
         </ResponsiveWrapper>
 
-        <s.SpacerMedium />
+        <s.SpacerLarge />
+        <s.SpacerLarge />
 
-        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+        <ResponsiveWrapper id="team" flex={1} style={{ padding: "0 50px 0 50px" }}>
 
           <s.Container
             flex={1}
@@ -647,7 +877,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/monkey1.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
 
                 <s.SpacerMedium />
@@ -661,13 +891,32 @@ function App() {
 
                   Project Founder
                 </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  Ketaros
+                </s.TextDescription>
+
+                <StyledImg
+                  alt={"discord"}
+                  src={"/config/images/discord.png"}
+                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                    e.preventDefault();
+                    window.open('https://discord.gg/', '_blank');
+                  }}
+                />
               </s.Container>
 
               <s.Container flex={1} jc={"center"} ai={"center"}>
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/monkey2.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
 
                 <s.SpacerMedium />
@@ -679,15 +928,34 @@ function App() {
                   }}
                 >
 
-                  Community Manager
+                  Developer
                 </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  FarTeck
+                </s.TextDescription>
+
+                <StyledImg
+                  alt={"discord"}
+                  src={"/config/images/discord.png"}
+                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                    e.preventDefault();
+                    window.open('https://discord.gg/', '_blank');
+                  }}
+                />
               </s.Container>
 
               <s.Container flex={1} jc={"center"} ai={"center"}>
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/monkey3.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
 
                 <s.SpacerMedium />
@@ -699,15 +967,34 @@ function App() {
                   }}
                 >
 
-                  Artist
+                  The Artist
                 </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)",
+                  }}
+                >
+
+                  Rob_Tasker
+                </s.TextDescription>
+
+                <StyledImg
+                  alt={"discord"}
+                  src={"/config/images/discord.png"}
+                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                    e.preventDefault();
+                    window.open('https://discord.gg/', '_blank');
+                  }}
+                />
               </s.Container>
 
               <s.Container flex={1} jc={"center"} ai={"center"}>
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/monkey4.png"}
-                  style={{ transform: "scaleX(-1)" }}
+
                 />
 
                 <s.SpacerMedium />
@@ -715,12 +1002,31 @@ function App() {
                 <s.TextDescription
                   style={{
                     textAlign: "center",
-                    color: "var(--accent-text)",
+                    color: "var(--accent-text)"
                   }}
                 >
 
                   The Investor
                 </s.TextDescription>
+
+                <s.TextDescription
+                  style={{
+                    textAlign: "center",
+                    color: "var(--accent-text)"
+                  }}
+                >
+
+                  Margot_IK
+                </s.TextDescription>
+
+                <StyledImg
+                  alt={"discord"}
+                  src={"/config/images/discord.png"}
+                  style={{ cursor: "pointer", width: "32px" }} onClick={(e) => {
+                    e.preventDefault();
+                    window.open('https://discord.gg/', '_blank');
+                  }}
+                />
               </s.Container>
             </ResponsiveWrapper>
 
@@ -728,9 +1034,49 @@ function App() {
 
         </ResponsiveWrapper>
 
-        <s.SpacerMedium />
+        <s.SpacerLarge />
+        <s.SpacerLarge />
 
-        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
+        <ResponsiveWrapper id="traits" flex={1} style={{ padding: "0 50px 0 50px" }}>
+
+          <s.Container
+            flex={1}
+            jc={"center"}
+            ai={"center"}
+            style={{
+              padding: "0 50px 0 50px"
+            }}
+          >
+
+            <s.TextTitle
+              style={{
+                textAlign: "center",
+                fontSize: "4rem",
+                fontWeight: "bold",
+                color: "var(--accent-text)",
+              }}
+            >
+              TRAITS
+            </s.TextTitle>
+
+            <s.SpacerLarge />
+
+            <ResponsiveWrapper flex={1} style={{ padding: 0 }}>
+              <s.Container flex={1} jc={"center"} ai={"center"}>
+                <TraitsTableStyles>
+                  <Table columns={traitsTableCollums} data={traits}></Table>
+                </TraitsTableStyles>
+              </s.Container>
+            </ResponsiveWrapper>
+
+          </s.Container>
+
+        </ResponsiveWrapper>
+
+        <s.SpacerLarge />
+        <s.SpacerLarge />
+
+        <ResponsiveWrapper id="links-faq" flex={1} style={{ padding: "0 50px 0 50px" }}>
 
           <s.Container
             flex={1}
@@ -760,10 +1106,11 @@ function App() {
                   e.preventDefault();
                   goTo('discord');
                 }}>
+
                 <StyledImg
                   alt={"discord"}
                   src={"/config/images/discord.png"}
-                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                  style={{ transform: "scaleX(-1)", width: "45px" }}
                 />
 
                 <s.SpacerMedium />
@@ -772,6 +1119,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '14px'
                   }}
                 >
 
@@ -783,6 +1131,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '12px'
                   }}
                 >
 
@@ -798,7 +1147,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/twitter.png"}
-                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                  style={{ transform: "scaleX(-1)", width: "45px" }}
                 />
 
                 <s.SpacerMedium />
@@ -807,6 +1156,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '14px'
                   }}
                 >
 
@@ -817,6 +1167,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '12px'
                   }}
                 >
 
@@ -831,7 +1182,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/instagram.png"}
-                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                  style={{ transform: "scaleX(-1)", width: "45px" }}
                 />
 
                 <s.SpacerMedium />
@@ -840,6 +1191,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '14px'
                   }}
                 >
 
@@ -850,6 +1202,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '12px'
                   }}
                 >
 
@@ -864,7 +1217,7 @@ function App() {
                 <StyledImg
                   alt={"example"}
                   src={"/config/images/opensea.png"}
-                  style={{ transform: "scaleX(-1)", width: "100px" }}
+                  style={{ transform: "scaleX(-1)", width: "45px" }}
                 />
 
                 <s.SpacerMedium />
@@ -873,6 +1226,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '14px'
                   }}
                 >
 
@@ -884,6 +1238,7 @@ function App() {
                   style={{
                     textAlign: "center",
                     color: "var(--accent-text)",
+                    fontSize: '12px'
                   }}
                 >
 
@@ -894,14 +1249,8 @@ function App() {
 
           </s.Container>
 
-        </ResponsiveWrapper>
-
-        <s.SpacerMedium />
-
-        <ResponsiveWrapper flex={1} style={{ padding: "0 50px 0 50px" }}>
-
           <s.Container
-            flex={1}
+            flex={2}
             jc={"center"}
             ai={"center"}
             style={{
@@ -949,8 +1298,7 @@ function App() {
 
                           <s.TextDescription
                             style={{
-                              textAlign: "justify",
-                              color: "var(--primary)",
+                              textAlign: "justify"
                             }}
                           >
 
@@ -1022,8 +1370,7 @@ function App() {
 
                           <s.TextDescription
                             style={{
-                              textAlign: "justify",
-                              color: "var(--primary)",
+                              textAlign: "justify"
                             }}
                           >
 
@@ -1031,7 +1378,7 @@ function App() {
                           </s.TextDescription>
 
                           <InternalAccordionWrapper open={open}>
-                            Metamask is a crypto-wallet that can store your Ethereum, and is needed to purchase and mint a Baby Ghost. Having a wallet gives you an Ethereum address (i.e. 0xSPOO….666), this is where your NFT will be stored. Learn more about Metamask and how easy it is to use over here! (https://metamask.io).
+                            Metamask is a crypto-wallet that can store your Ethereum, and is needed to purchase and mint a Bored Apes. Having a wallet gives you an Ethereum address (i.e. 0xSPOO….666), this is where your NFT will be stored. Learn more about Metamask and how easy it is to use over here! (https://metamask.io).
                           </InternalAccordionWrapper>
 
                         </s.Container>
@@ -1095,8 +1442,7 @@ function App() {
 
                           <s.TextDescription
                             style={{
-                              textAlign: "justify",
-                              color: "var(--primary)",
+                              textAlign: "justify"
                             }}
                           >
 
@@ -1168,8 +1514,7 @@ function App() {
 
                           <s.TextDescription
                             style={{
-                              textAlign: "justify",
-                              color: "var(--primary)",
+                              textAlign: "justify"
                             }}
                           >
 
@@ -1216,6 +1561,7 @@ function App() {
         </ResponsiveWrapper>
 
         <s.SpacerLarge />
+        <s.SpacerLarge />
 
         <s.Container jc={"center"} ai={"center"} style={{ width: "70%" }}>
           <s.TextDescription
@@ -1242,7 +1588,7 @@ function App() {
         </s.Container>
       </s.Container>
 
-      <s.SpacerLarge />
+      <s.SpacerLarge /><s.SpacerLarge />
     </s.Screen>
   );
 }
