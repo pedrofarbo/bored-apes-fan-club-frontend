@@ -881,16 +881,14 @@ function App() {
                           <s.Container ai={"center"} jc={"center"} fd={"row"}>
                             <StyledButton
                               style={{ fontFamily: "airstrike" }}
-                              // disabled={claimingNft ? 1 : 0}
-                              disabled={true}
+                              disabled={claimingNft ? 1 : 0}
                               onClick={(e) => {
                                 e.preventDefault();
                                 claimNFTs();
                                 getData();
                               }}
-                            >
-                              {/* {claimingNft ? "MINTING" : "MINT"} */}
-                              New round soon.. Stay tuned!
+                           >
+                              {claimingNft ? "MINTING" : "MINT"}
                       </StyledButton>
                           </s.Container>
                         </>
